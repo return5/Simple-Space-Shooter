@@ -84,9 +84,9 @@ local function checkForCollision(list,i,obj2)
 end
 
 --checks to see if player and object are visible to each other
-function isPlayerVisible(obj)
-    if PLAYER.x >= obj.x - HALF_W and PLAYER.x <= obj.x + HALF_W then
-        if PLAYER.y >= obj.y - HALF_H and PLAYER.y <= obj.y + HALF_H then
+function OBJECT:isPlayerVisible()
+    if PLAYER.x >= self.x - HALF_W and PLAYER.x <= self.x + HALF_W then
+        if PLAYER.y >= self.y - HALF_H and PLAYER.y <= self.y + HALF_H then
             return true
         end
     end

@@ -2,7 +2,7 @@
 
 local Obj   = require("aux_files.object")
 
-SHIP = {target_x = nil, target_y = nil,moveable = nil,speed = nil,health = nil, max_health = nil, shoot_func = nil,score = nil,thruster = nil,missle = nil}
+SHIP = {target_x = nil, target_y = nil,moveable = nil,speed = nil,health = nil, max_health = nil, shoot_func = nil,score = nil,thruster = nil,missle = nil,chase = nil}
 SHIP.__index = SHIP
 setmetatable(SHIP,OBJECT)
 
@@ -14,12 +14,12 @@ local TYPE_NAMES = {"Fighter","UFO","Rocket","Satellite","Space_station","Solita
 
 
 --if the fighter can chase the player hen do so if player is visible, otherwise just move straight
-function SHIP:canChasePlayer()
-    if self.isPlayerVisible() == true then
-        self.lookAtPlayer()
-        self.moveStraightLine()
+function chasePlayer(ship,dt)
+    if ship:isPlayerVisible() == true then
+        lookAtPlayer(ship)
+        moveStraightLine(ship,dt)
     else
-        self.moveStraightLine()
+        moveStraightLine(ship,dt)
     end
 end
 
@@ -34,11 +34,11 @@ end
 
 
 --look at a random spot near player position
-function SHIP:lookAtPlayer()
-    if self.isPlayerVisible() == true then
-        self.target_x = math.random(PLAYER.x - 5, PLAYER.x + 5)
-        self.target_y = math.random(PLAYER.y - 5, PLAYER.x + 5)
-        self.getnewAngle()
+function lookAtPlayer(ship)
+    if ship:isPlayerVisible() == true then
+        ship.target_x = PLAYER.x
+        ship.target_y = PLAYER.y
+        ship:getNewAngle()
     end
 end
 
@@ -50,7 +50,7 @@ function SHIP:changeHealth(h)
     end
 end
 
---cahnge angle of ship based on targeting location
+--change angle of ship based on targeting location
 function SHIP:getNewAngle()
     self.move_angle = math.atan2(self.target_y - self.y,self.target_x - self.x)
     if self.ship_type ~= "UFO" then
@@ -80,9 +80,7 @@ end
 
 
 function updateShip(list,i,dt)
-    if list[i].moveable == true then
-        list[i]:moveObject(dt)
-    end
+    list[i]:moveObject(dt)
    --[[ local j = iterateList(list,checkForCollision,list[i])
     if j ~= -1 then
         table.remove(list,i)
@@ -95,6 +93,7 @@ function updateShip(list,i,dt)
     --]]
     return false
 end
+
 function SHIP:updatePlayer(dt)
     playerTargetMouse()
     self:getNewAngle()
@@ -203,12 +202,23 @@ local function getThruster(ship)
         return makeThruster(ship.x,ship.y,ship.move_angle,ship.ship_type)
 end
 
+local function getMoveFunc(ship)
+    if ship.moveable == false then
+        return lookAtPlayer
+    elseif ship.chase == false then
+        return moveStraightLine
+    else
+        return chasePlayer
+    end
+end
+
+
 function SHIP:new()
     local ship_type  = getShipType()
     local icon       = getIcon(ship_type)
-   -- local chase    = getChase(ship_type)
     local x,y        = makeXY(SHIP_LIST)
     local o          = setmetatable(OBJECT:new(x,y,angle,icon),SHIP)
+    o.chase          = getChase(ship_type)
     o.ship_type      = ship_type
     o.moveable       = getMoveable(ship_type)
     --o.sound          = getSound(o.moveable) 
@@ -219,7 +229,7 @@ function SHIP:new()
     o.thruster       = getThruster(o) 
     o.health         = getHealth(ship_type)
     o.max_health     = o.health
-    o.move_func      = moveStraightLine
+    o.move_func      = getMoveFunc(o)
   --  o.missle         = getMissleOrLaser()
     return o
 end
