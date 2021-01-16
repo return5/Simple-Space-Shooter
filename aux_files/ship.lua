@@ -23,6 +23,16 @@ function SHIP:canChasePlayer()
     end
 end
 
+function SHIP:printThruster()
+    if self.thruster ~= nil then
+        self.thruster.x     = self.x
+        self.thruster.y     = self.y
+        self.thruster.angle = self.angle
+        self.thruster:printObj()
+    end
+end
+
+
 --look at a random spot near player position
 function SHIP:lookAtPlayer()
     if self.isPlayerVisible() == true then
@@ -138,6 +148,7 @@ local function getThrusterIcon()
     return love.graphics.newImage("/assets/img/effects/thrust_" .. math.random(1,3) .. ".png")
 end
 
+
 function THRUSTER:new(x,y,angle)
     local icon = getThrusterIcon()
     local o    = setmetatable(OBJECT:new(x,y,angle,icon),THRUSTER)
@@ -148,7 +159,7 @@ local function makeThruster(x,y,angle,ship_type)
     if ship_type == TYPE_NAMES[1] or ship_type == TYPE_NAMES[3] then
         return THRUSTER:new(x,y,angle)
     end
-    return nil
+    return THRUSTER:new(x,y,angle)
 end
 
 local function getAngle(ship_type)

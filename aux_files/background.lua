@@ -1,25 +1,13 @@
 --File contains functions for creating the background of game
 
+local Obj  = require("aux_files.object")
+
 --list of all background objects
 local BG_LIST = {}
 
 --print object to background canvas
-local function printBGObj(rand)
-    local img   = love.graphics.newImage("/assets/img/planets/planet_icon_" .. rand(1,41) ..".png")
-    local angle = -3.14159 + rand() * 6.28318
-    love.graphics.draw(img,BG_LIST[#BG_LIST].x,BG_LIST[#BG_LIST].y,angle,nil,nil,img:getWidth() / 2, img:getHeight() / 2)
-end
-
---checks if x,y overlap with another background object
-local function checkOverlap(x,y)
-    for i=1,#BG_LIST,1 do
-        if x <= BG_LIST[i].x + 70 and x >= BG_LIST[i].x - 70 then
-            if y <= BG_LIST[i].y + 70 and y >= BG_LIST[i].y - 70 then
-                return true
-            end
-        end
-    end
-    return false
+local function getIcon(rand)
+    return love.graphics.newImage("/assets/img/planets/planet_icon_" .. rand(1,41) ..".png")
 end
 
 --draw border around game map
@@ -34,26 +22,31 @@ end
 
 --gets a new randomly genrated x y for background objext
 local function getXY(rand)
-    local x,y
-    local checkoverlap = checkOverlap
+    local params = {x = nil, y = nil}
+    local checkoverlap = checkIfOverLap
+    local iterate      = iterateList
     repeat
-        x = rand(1,GAME_W - 40)
-        y = rand(1,GAME_H - 40)
-    until(checkoverlap(x,y) == false)
-    return {x = x,y = y}
+        params.x = rand(1,GAME_W - 40)
+        params.y = rand(1,GAME_H - 40)
+    until(iterate(BG_LIST,checkIfOverLap,params) == -1 )
+    return params.x,params.y
 end
 
 --create the background for the game
 function makeBackground()
     local bg_canvas = love.graphics.newCanvas(GAME_W,GAME_H)
     local rand      = math.random
-    local n         = rand(10,30)
+    local n         = rand(10,100)
     local add       = table.insert
     local getxy     = getXY
     love.graphics.setCanvas(bg_canvas)
     for i=1,n,1 do
-        add(BG_LIST,getxy(rand))
-        printBGObj(rand)
+        local x,y    = getXY(rand)
+        local angle  = -3.14159 + rand() * 6.28318530718
+        local icon   = getIcon(rand)
+        local bg_obj = OBJECT:new(x,y,angle,icon)
+        add(BG_LIST,bg_obj)
+        bg_obj:printObj()
     end
     drawBorderToCanvas()
     love.graphics.setCanvas()

@@ -33,12 +33,17 @@ function OBJECT:moveStraightLine()
     return succ
 end
 
+--checks to see if object overlaps another object or if it is at the border
 function checkIfOverLap(list,i,params)
-    if params.x >= list[i].x - 100 and params.x <= list[i].x + 100 then
-        if params.y >= list[i].y - 100 and params.y <= list[i].y + 100 then
+    if params.x >= list[i].x - list[i].x_off - 20 and params.x <= list[i].x + list[i].icon:getWidth() + 20 then
+        if params.y >= list[i].y - list[i].y_off + 20 and params.y <= list[i].y + list[i].icon:getHeight() + 20 then
             return true
         end
     end
+    if params.x < 25 or params.x > GAME_W - 50 or params.y < 25 or params.y > GAME_H - 50 then
+        return true
+    end
+
     return false
 end
 
@@ -92,7 +97,7 @@ function isPlayerVisible(obj)
     return false
 end
 
-function iterateList(list,fun,params)
+function iterateList(list,func,params)
     for i=#list,1,1 do
         if list[i] ~=nil then
             if func(list,i,params) == true then

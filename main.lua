@@ -27,6 +27,7 @@ function love.draw()
     love.graphics.draw(BG_CANVAS)
     love.graphics.setCanvas()
     PLAYER:printObj()
+    PLAYER:printThruster()
     love.graphics.pop()
 end
 
