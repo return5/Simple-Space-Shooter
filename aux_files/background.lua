@@ -36,7 +36,7 @@ end
 function makeBackground()
     local bg_canvas = love.graphics.newCanvas(GAME_W,GAME_H)
     local rand      = math.random
-    local n         = rand(10,100)
+    local n         = rand(30,150)
     local add       = table.insert
     local getxy     = getXY
     love.graphics.setCanvas(bg_canvas)

@@ -145,7 +145,7 @@ local function makeXY()
 end
 
 local function getThrusterIcon()
-    return love.graphics.newImage("/assets/img/effects/thrust_" .. math.random(1,3) .. ".png")
+    return love.graphics.newImage("/assets/img/effects/thrust_" .. math.random(1,5) .. ".png")
 end
 
 
