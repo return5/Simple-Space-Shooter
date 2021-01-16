@@ -61,8 +61,8 @@ function love.load()
     WINDOW_H      = 900
     HALF_W        = WINDOW_W / 2
     HALF_H        = WINDOW_H / 2
-    GAME_W        = 4000
-    GAME_H        = 4000
+    GAME_W        = math.random(1000,3000)
+    GAME_H        = math.random(1000,3000)
     love.window.setMode(WINDOW_W,WINDOW_H)
     BG_CANVAS     = makeBackground()
     SHIP_LIST     = {}
