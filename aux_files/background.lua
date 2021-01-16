@@ -26,8 +26,8 @@ local function getXY(rand)
     local checkoverlap = checkIfOverLap
     local iterate      = iterateList
     repeat
-        params.x = rand(1,GAME_W - 40)
-        params.y = rand(1,GAME_H - 40)
+        params.x = rand(50,GAME_W - 50)
+        params.y = rand(50,GAME_H - 50)
     until(iterate(BG_LIST,checkIfOverLap,params) == -1 )
     return params.x,params.y
 end
