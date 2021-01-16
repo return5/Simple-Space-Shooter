@@ -2,7 +2,7 @@
 
 local Obj   = require("aux_files.object")
 
-SHIP = {target_x = nil, target_y = nil,movable = nil,speed = nil,health = nil, max_health = nil, shoot_func = nil,score = nil,thruster = nil,missle = nil}
+SHIP = {target_x = nil, target_y = nil,moveable = nil,speed = nil,health = nil, max_health = nil, shoot_func = nil,score = nil,thruster = nil,missle = nil}
 SHIP.__index = SHIP
 setmetatable(SHIP,OBJECT)
 
@@ -10,7 +10,7 @@ THRUSTER = {}
 THRUSTER.__index = THRUSTER
 setmetatable(THRUSTER,OBJECT)
 
-local TYPE_NAMES = {"Fighter","UFO","Rocket","Satellite","Space_station","Comet","Solitary_Ship"}
+local TYPE_NAMES = {"Fighter","UFO","Rocket","Satellite","Space_station","Solitary_Ship"}
 
 
 --if the fighter can chase the player hen do so if player is visible, otherwise just move straight
@@ -57,27 +57,24 @@ end
 
 --get new random angle between 90 and 270 degrees
 function SHIP:getRandomAngle()
-    local angle = self.angle - 1.57079 * math.random() * 3.14159
+    self.angle = self.angle - 1.57079 * math.random() * 3.14159
 end
 
-local function updateShip(i)
-    if SHIP_LIST[i].moveable == true then
-        SHIP_LIST[i].move_func(SHIP_LIST[i])
+function updateShip(list,i,dt)
+    if list[i].moveable == true then
+        list[i]:moveObject(dt)
     end
-    local j = iterateList(SHIP_LIST,checkForCollision,SHIP_LIST[i])
+   --[[ local j = iterateList(list,checkForCollision,list[i])
     if j ~= -1 then
-        table.remove(SHIP_LIST,i)
-        table.remove(SIP_LIST,j)
+        table.remove(list,i)
+        table.remove(list,j)
         return false
     end
-    if SHIP_LIST[i].shoot_func ~= nil then
-        SHIP_LIST[i].shoot_func(SHIP_LIST[i])
+    if list[i].shoot_func ~= nil then
+        list[i].shoot_func(list[i])
     end
+    --]]
     return false
-end
-
-function updateAllShips()
-    iterateList(SHIP_LIST,updateShip,nil)
 end
 
 local function getShipType()
@@ -93,17 +90,17 @@ local function getIcon(ship_type)
     if ship_type == TYPE_NAMES[1] then
         icon = "/assets/img/ships/fighter_" .. math.random(1,2) .. ".png"
     elseif ship_type == TYPE_NAMES[2] then
-        icon = "/assets/img/ships/ufo."
+        icon = "/assets/img/ships/ship_icon_ufo.png"
     elseif ship_type == TYPE_NAMES[3] then
-        icon = "/assets/img/ships/rocket."
+        icon = "/assets/img/ships/rocket.png"
     elseif ship_type == TYPE_NAMES[4] then
         icon = "/assets/img/ships/satellite_" .. math.random(1,5) .. ".png"
-    elseif ship_type == TYPE_NAME[5] then
+    elseif ship_type == TYPE_NAMES[5] then
         icon = "/assets/img/ships/space_station_" .. math.random(1,3) .. ".png"
-    elseif ship_type  == TYPE_NAMES[6] then
-        icon = "/assets/img/ships/comet.png"
-    elseif ship_type == TYPE_NAMES[7] then
-        icon = "/assets/img/ships/stationary_ship.png"
+    elseif ship_type == TYPE_NAMES[6] then
+        icon = "/assets/img/ships/rocket.png"
+    elseif ship_type == "Player" then
+        icon = "/assets/img/ships/player.png"
     end
       return love.graphics.newImage(icon)
 end
@@ -132,17 +129,6 @@ local function getMoveable(ship_type)
     return true
 end
 
-local function makeXY()
-    local rand    = math.random
-    local params  = {x = nil, y = nil}
-    local func    = checkIfOVerlap
-    local iterate = iterateList
-    repeat
-        params.x = rand(1,GAME_W)
-        params.y = rand(1,GAME_H)
-    until(iterate(SHIP_LIST,func,params) == -1)
-    return params.x,params.y
-end
 
 local function getThrusterIcon()
     return love.graphics.newImage("/assets/img/effects/thrust_" .. math.random(1,5) .. ".png")
@@ -162,12 +148,6 @@ local function makeThruster(x,y,angle,ship_type)
     return THRUSTER:new(x,y,angle)
 end
 
-local function getAngle(ship_type)
-    if ship_type == TYPE_NAMES[2] == true then
-        return 0
-    end
-    return -3.14159 + math.random() * 6.28318530718
-end
 
 local function getMissleOrLaser()
     local n = math.random(1,3)
@@ -184,24 +164,46 @@ local function getLaserColor(missle)
     return nil
 end
 
+local function getHealth(ship_type)
+    return 3
+end
+
 function SHIP:new()
     local ship_type  = getShipType()
-    local icon       = love.graphics.newImage("/assets/img/ships/player.png")--getIcon(ship_type)
-    local moveable   = getMoveable(ship_type)
-   -- local chase      = getChase(ship_type)
-    local x,y        = makeXY()
+    local icon       = getIcon(ship_type)
+   -- local chase    = getChase(ship_type)
+    local x,y        = makeXY(SHIP_LIST)
+    local o          = setmetatable(OBJECT:new(x,y,angle,icon),SHIP)
+    o.moveable       = getMoveable(ship_type)
+    --o.sound          = getSound(o.moveable) 
+    o.speed          = getSpeed(o.moveable)
+   -- o.shoot_func     = getShootFunc(o.moveable,chase)
+    o.angle          = getAngle(ship_type)
+    o.thruster       = makeThruster(x,y,o.angle,ship_type)
+    o.health         = getHealth(ship_type)
+    o.max_health     = o.health
+    o.move_func      = moveStraightLine
+  --  o.missle         = getMissleOrLaser()
+    return o
+end
+
+function SHIP:makePlayer()
+    local ship_type  = "Player"
+    local icon       = getIcon(ship_type)
+    local moveable   = true 
+    local x,y        = makeXY(nil)
     local o          = setmetatable(OBJECT:new(x,y,angle,icon),SHIP)
     --o.sound          = getSound(moveable) 
     o.speed          = getSpeed(moveable)
    -- o.shoot_func     = getShootFunc(moveable,chase)
-    o.angle          = getAngle()
+    o.angle          = getAngle(ship_type)
     o.thruster       = makeThruster(x,y,o.angle,ship_type)
   --  o.missle         = getMissleOrLaser()
     return o
 end
 
 function makeEnemyShips()
-    local n = math.random(10,30)
+    local n = math.random(20,60)
     for i=1,n,1 do
         table.insert(SHIP_LIST,SHIP:new())
     end

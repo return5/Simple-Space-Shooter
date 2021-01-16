@@ -17,15 +17,16 @@
             along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local Moving     = require("aux_files.ship")
-local Stationary = require("aux_files.projectile")
+local Obj        = require("aux_files.object")
+local Ship       = require("aux_files.ship")
+local Proj       = require("aux_files.projectile")
 local Background = require("aux_files.background")
 
 function love.draw()
     love.graphics.push()
     love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
     love.graphics.draw(BG_CANVAS)
-    love.graphics.setCanvas()
+    iterateList(SHIP_LIST,printObject)
     PLAYER:printObj()
     PLAYER:printThruster()
     love.graphics.pop()
@@ -50,6 +51,7 @@ function love.mousepressed(x,y,button,_,_)
 end
 
 function love.update(dt)
+    iterateList(SHIP_LIST,updateShip,dt)
     playerTargetMouse()
     PLAYER:getNewAngle()
     if MOVE == true then
@@ -71,9 +73,9 @@ function love.load()
     BG_CANVAS = makeBackground()
     SHIP_LIST = {}
     PROJ_LIST = {}
-    PLAYER    = SHIP:new()
-    --ENEMIES   = makeEnemies()
+    PLAYER    = SHIP:makePlayer()
+    makeEnemyShips()
     PLAY      = true
-    MOVE = false
-
+    MOVE      = false
+   
 end

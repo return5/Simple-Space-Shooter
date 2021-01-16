@@ -20,29 +20,19 @@ local function drawBorderToCanvas()
     love.graphics.line(GAME_W,1,GAME_W,GAME_H)
 end
 
---gets a new randomly genrated x y for background objext
-local function getXY(rand)
-    local params = {x = nil, y = nil}
-    local checkoverlap = checkIfOverLap
-    local iterate      = iterateList
-    repeat
-        params.x = rand(50,GAME_W - 50)
-        params.y = rand(50,GAME_H - 50)
-    until(iterate(BG_LIST,checkIfOverLap,params) == -1 )
-    return params.x,params.y
-end
 
 --create the background for the game
 function makeBackground()
     local bg_canvas = love.graphics.newCanvas(GAME_W,GAME_H)
     local rand      = math.random
-    local n         = rand(30,150)
+    local n         = rand(20,60)
     local add       = table.insert
     local getxy     = getXY
     love.graphics.setCanvas(bg_canvas)
     for i=1,n,1 do
-        local x,y    = getXY(rand)
-        local angle  = -3.14159 + rand() * 6.28318530718
+        local x,y    = makeXY(BG_LIST)
+
+        local angle  = getAngle("BG")
         local icon   = getIcon(rand)
         local bg_obj = OBJECT:new(x,y,angle,icon)
         add(BG_LIST,bg_obj)

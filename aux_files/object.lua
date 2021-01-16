@@ -24,19 +24,19 @@ function OBJECT:getNewXY(dt)
 end
 
 --move in a straight line in direction facing
-function OBJECT:moveStraightLine()
-    local new_x,new_y = self.getNewXY()
-    local succ        = self.changeXY(new_x,new_y) 
+function moveStraightLine(obj,dt)
+    local new_x,new_y = obj:getNewXY(dt)
+    local succ        = obj:changeXY(new_x,new_y) 
     if succ == false then
-        getRandomAngle()
+        obj:getRandomAngle()
     end
     return succ
 end
 
---checks to see if object overlaps another object or if it is at the border
+--checks to see if object overlaps another object
 function checkIfOverLap(list,i,params)
-    if params.x >= list[i].x  - 100 and params.x <= list[i].x + list[i].icon:getWidth() + 100 then
-        if params.y >= list[i].y - 100 and params.y <= list[i].y + list[i].icon:getHeight() + 100 then
+    if params.x >= list[i].x  - 210 and params.x <= list[i].x + 210 then
+        if params.y >= list[i].y - 210 and params.y <= list[i].y + 210 then
             return true
         end
     end
@@ -93,29 +93,59 @@ function isPlayerVisible(obj)
     return false
 end
 
-function iterateList(list,func,params)
-    for i=#list,1,1 do
-        if list[i] ~=nil then
-            if func(list,i,params) == true then
-                return i
-            end
-        end
-    end
-    return -1
+function OBJECT:moveObject(dt)
+    self.move_func(self,dt)
 end
 
 function OBJECT:printObj()
     love.graphics.draw(self.icon,self.x,self.y,self.angle,nil,nil,self.x_off,self.y_off)
 end
 
+function printObject(list,i,_)
+    list[i]:printObj()
+    return false
+end
+
+function iterateList(list,func,params)
+    if list ~= nil then
+        for i=#list,1,-1 do
+            if list[i] ~=nil then
+                if func(list,i,params) == true then
+                    return i
+                end
+            end
+        end
+    end
+    return -1
+end
+
+function getAngle(ship_type)
+    if ship_type == "UFO" then
+        return 0
+    end
+    return -3.14159 + math.random() * 6.28318
+end
+
+function makeXY(list)
+    local rand    = math.random
+    local params  = {x = nil, y = nil}
+    local func    = checkIfOverLap
+    local iteratelist = iterateList
+    repeat
+        params.x = rand(50,GAME_W - 50)
+        params.y = rand(50,GAME_H - 50)
+    until(iteratelist(list,func,params) == -1)
+    return params.x,params.y
+end
+
 function OBJECT:new(x,y,angle,icon)
-    local o       = setmetatable({},OBJECT)
-    o.icon        = icon
-    o.x           = x
-    o.y           = y
-    o.angle       = angle
-    o.x_off       = icon:getWidth() / 2
-    o.y_off       = icon:getHeight() / 2
+    local o    = setmetatable({},OBJECT)
+    o.icon     = icon
+    o.x        = x
+    o.y        = y
+    o.angle    = angle
+    o.x_off    = icon:getWidth() / 2
+    o.y_off    = icon:getHeight() / 2
     return o
 end
 
