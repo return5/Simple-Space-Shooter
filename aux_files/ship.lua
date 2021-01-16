@@ -150,7 +150,7 @@ local function getChase(ship_type)
 end
 
 local function getMoveable(ship_type)
-    if ship_type == TYPE_NAMES[5] or ship_type == TYPE_NAMES[7] then
+    if ship_type == TYPE_NAMES[5] or ship_type == TYPE_NAMES[6] then
         return false
     end
     return true
@@ -195,6 +195,14 @@ local function getHealth(ship_type)
     return 3
 end
 
+
+local function getThruster(ship)
+    if ship.moveable == false or ship.ship_type == TYPE_NAMES[2] or ship.ship_type == TYPE_NAMES[4] then
+        return nil
+    end 
+        return makeThruster(ship.x,ship.y,ship.move_angle,ship.ship_type)
+end
+
 function SHIP:new()
     local ship_type  = getShipType()
     local icon       = getIcon(ship_type)
@@ -208,7 +216,7 @@ function SHIP:new()
    -- o.shoot_func     = getShootFunc(o.moveable,chase)
     o.move_angle     = getAngle()
     o.print_angle    = o.ship_type ~= "UFO" and o.move_angle or 0
-    o.thruster       = o.ship_type ~= "UFO" and o.moveable == true and makeThruster(x,y,o.move_angle,ship_type) or nil
+    o.thruster       = getThruster(o) 
     o.health         = getHealth(ship_type)
     o.max_health     = o.health
     o.move_func      = moveStraightLine
