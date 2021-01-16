@@ -1,6 +1,6 @@
 --File contins parent class for all objects of the game. 
 
-OBJECT = {x = nil, y = nil, x_off = nil, y_off = nil,icon = nil,angle = nil,move_func = nil}
+OBJECT = {x = nil, y = nil, x_off = nil, y_off = nil,icon = nil,move_angle = nil,print_angle = nil,move_func = nil,ship_type = nil}
 OBJECT.__index = OBJECT
 
 
@@ -16,8 +16,8 @@ end
 
 --get the new x and y to move a object to
 function OBJECT:getNewXY(dt)
-    local cos   = math.cos(self.angle)
-    local sin   = math.sin(self.angle)
+    local cos   = math.cos(self.move_angle)
+    local sin   = math.sin(self.move_angle)
     local new_x = self.x + self.speed * cos * dt
     local new_y = self.y + self.speed * sin * dt
     return new_x,new_y
@@ -98,7 +98,7 @@ function OBJECT:moveObject(dt)
 end
 
 function OBJECT:printObj()
-    love.graphics.draw(self.icon,self.x,self.y,self.angle,nil,nil,self.x_off,self.y_off)
+    love.graphics.draw(self.icon,self.x,self.y,self.print_angle,nil,nil,self.x_off,self.y_off)
 end
 
 function printObject(list,i,_)
@@ -119,10 +119,7 @@ function iterateList(list,func,params)
     return -1
 end
 
-function getAngle(ship_type)
-    if ship_type == "UFO" then
-        return 0
-    end
+function getAngle()
     return -3.14159 + math.random() * 6.28318
 end
 
@@ -139,13 +136,14 @@ function makeXY(list)
 end
 
 function OBJECT:new(x,y,angle,icon)
-    local o    = setmetatable({},OBJECT)
-    o.icon     = icon
-    o.x        = x
-    o.y        = y
-    o.angle    = angle
-    o.x_off    = icon:getWidth() / 2
-    o.y_off    = icon:getHeight() / 2
+    local o       = setmetatable({},OBJECT)
+    o.icon        = icon
+    o.x           = x
+    o.y           = y
+    o.move_angle  = angle
+    o.print_angle = angle
+    o.x_off       = icon:getWidth() / 2
+    o.y_off       = icon:getHeight() / 2
     return o
 end
 

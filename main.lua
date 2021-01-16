@@ -26,23 +26,17 @@ function love.draw()
     love.graphics.push()
     love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
     love.graphics.draw(BG_CANVAS)
-    iterateList(SHIP_LIST,printObject)
-    PLAYER:printObj()
-    PLAYER:printThruster()
+    iterateList(SHIP_LIST,printShip)
+    PLAYER:printPlayer()
     love.graphics.pop()
 end
 
-local function playerTargetMouse()
+function playerTargetMouse()
     PLAYER.target_x = love.mouse.getX() + PLAYER.x - HALF_W
     PLAYER.target_y = love.mouse.getY() + PLAYER.y - HALF_H
 end
 
 function love.keypressed(_,scancode,_)
-    if scancode == "w" then
-        MOVE = true
-    else
-        MOVE = false
-    end
 
 end
 
@@ -52,30 +46,32 @@ end
 
 function love.update(dt)
     iterateList(SHIP_LIST,updateShip,dt)
-    playerTargetMouse()
-    PLAYER:getNewAngle()
-    if MOVE == true then
-        local x,y  = PLAYER:getNewXY(dt)
-        PLAYER:changeXY(x,y)
+    if love.keyboard.isScancodeDown('w') then
+        MOVE = true
+    else
+        MOVE = false
     end
+
+    PLAYER:updatePlayer(dt)
 end
 
 function love.load()
     math.randomseed(os.time())
-    WINDOW_W  = 900 
-    WINDOW_H  = 900
-    HALF_W    = WINDOW_W / 2
-    HALF_H    = WINDOW_H / 2
-    GAME_W    = 4000
-    GAME_H    = 4000
+    WINDOW_W      = 900 
+    WINDOW_H      = 900
+    HALF_W        = WINDOW_W / 2
+    HALF_H        = WINDOW_H / 2
+    GAME_W        = 4000
+    GAME_H        = 4000
     love.window.setMode(WINDOW_W,WINDOW_H)
-    love.keyboard.setKeyRepeat(true)
-    BG_CANVAS = makeBackground()
-    SHIP_LIST = {}
-    PROJ_LIST = {}
-    PLAYER    = SHIP:makePlayer()
+    BG_CANVAS     = makeBackground()
+    SHIP_LIST     = {}
+    PROJ_LIST     = {}
+    PLAYER        = SHIP:makePlayer()
     makeEnemyShips()
-    PLAY      = true
-    MOVE      = false
+    PLAY          = true
+    MOVE          = false
+    PLAYER_SCORE  = 0
+    love.keyboard.setKeyRepeat(true)
    
 end

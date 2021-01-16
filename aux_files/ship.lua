@@ -25,9 +25,9 @@ end
 
 function SHIP:printThruster()
     if self.thruster ~= nil then
-        self.thruster.x     = self.x
-        self.thruster.y     = self.y
-        self.thruster.angle = self.angle
+        self.thruster.x           = self.x
+        self.thruster.y           = self.y
+        self.thruster.print_angle = self.move_angle
         self.thruster:printObj()
     end
 end
@@ -52,13 +52,34 @@ end
 
 --cahnge angle of ship based on targeting location
 function SHIP:getNewAngle()
-    self.angle = math.atan2(self.target_y - self.y,self.target_x - self.x)
+    self.move_angle = math.atan2(self.target_y - self.y,self.target_x - self.x)
+    if self.ship_type ~= "UFO" then
+        self.print_angle = self.move_angle
+    end
 end
 
 --get new random angle between 90 and 270 degrees
 function SHIP:getRandomAngle()
-    self.angle = self.angle - 1.57079 * math.random() * 3.14159
+    self.move_angle = self.move_angle - 1.57079 * math.random() * 3.14159
+    if self.ship_type ~= "UFO" then
+        self.print_angle = self.move_angle
+    end
 end
+
+function SHIP:printPlayer()
+    self:printObj()
+    if MOVE == true then
+        self:printThruster()
+    end
+end
+
+function printShip(list,i,_)
+    list[i]:printObj()
+    if list[i].moveable == true and list[i].move_func ~= nil then
+        list[i]:printThruster()
+    end
+end
+
 
 function updateShip(list,i,dt)
     if list[i].moveable == true then
@@ -75,6 +96,14 @@ function updateShip(list,i,dt)
     end
     --]]
     return false
+end
+function SHIP:updatePlayer(dt)
+    playerTargetMouse()
+    self:getNewAngle()
+    if MOVE == true then
+        local x,y  = self:getNewXY(dt)
+        self:changeXY(x,y)
+    end
 end
 
 local function getShipType()
@@ -174,12 +203,14 @@ function SHIP:new()
    -- local chase    = getChase(ship_type)
     local x,y        = makeXY(SHIP_LIST)
     local o          = setmetatable(OBJECT:new(x,y,angle,icon),SHIP)
+    o.ship_type      = ship_type
     o.moveable       = getMoveable(ship_type)
     --o.sound          = getSound(o.moveable) 
     o.speed          = getSpeed(o.moveable)
    -- o.shoot_func     = getShootFunc(o.moveable,chase)
-    o.angle          = getAngle(ship_type)
-    o.thruster       = makeThruster(x,y,o.angle,ship_type)
+    o.move_angle     = getAngle()
+    o.print_angle    = o.ship_type ~= "UFO" and o.move_angle or 0
+    o.thruster       = o.ship_type ~= "UFO" and o.moveable == true and makeThruster(x,y,o.move_angle,ship_type) or nil
     o.health         = getHealth(ship_type)
     o.max_health     = o.health
     o.move_func      = moveStraightLine
