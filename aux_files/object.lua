@@ -40,7 +40,7 @@ function checkIfOverLap(list,i,params)
             return true
         end
     end
-    if params.x < 25 or params.x > GAME_W - 50 or params.y < 25 or params.y > GAME_H - 50 then
+    if params.x < 50 or params.x > GAME_W - 50 or params.y < 50 or params.y > GAME_H - 50 then
         return true
     end
 
