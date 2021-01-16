@@ -75,9 +75,7 @@ end
 
 function printShip(list,i,_)
     list[i]:printObj()
-    if list[i].moveable == true and list[i].move_func ~= nil then
-        list[i]:printThruster()
-    end
+    list[i]:printThruster()
 end
 
 
