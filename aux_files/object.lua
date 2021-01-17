@@ -26,11 +26,7 @@ end
 --move in a straight line in direction facing
 function moveStraightLine(obj,dt)
     local new_x,new_y = obj:getNewXY(dt)
-    local succ        = obj:changeXY(new_x,new_y) 
-    if succ == false then
-        obj:getRandomAngle()
-    end
-    return succ
+    return obj:changeXY(new_x,new_y) 
 end
 
 --checks to see if object overlaps another object
@@ -69,17 +65,17 @@ local function checkYCollision(obj1,obj2)
     if obj1.y + obj1.y_off >= obj2.y and obj1.y <= obj2.y + obj2.y_off then
         return true
     end
-    if obj1.y <= obj2.y and obj1.y + obj1.self_y >= obj2.y + obj2.self_y then
+    if obj1.y <= obj2.y and obj1.y + obj1.y >= obj2.y + obj2.y_off then
         return true
     end
     return false
 end
 
 --checks to see if two objects have collided
-local function checkForCollision(list,i,obj2)
+function checkForCollision(list,i,obj2)
     local obj1 = list[i]
     if obj1 ~= obj2 then
-      return checkXCollision(obj1,obj2) and checkYCollison(obj1,obj2)
+      return checkXCollision(obj1,obj2) and checkYCollision(obj1,obj2)
     end
 end
 
@@ -94,7 +90,7 @@ function OBJECT:isPlayerVisible()
 end
 
 function OBJECT:moveObject(dt)
-    self.move_func(self,dt)
+    return self.move_func(self,dt)
 end
 
 function OBJECT:printObj()
@@ -119,12 +115,11 @@ function iterateList(list,func,params)
     return -1
 end
 
-function getAngle()
-    return -3.14159 + math.random() * 6.28318
+function getAngle(rand)
+    return -3.14159 + rand() * 6.28318
 end
 
-function makeXY(list)
-    local rand    = math.random
+function makeXY(list,rand)
     local params  = {x = nil, y = nil}
     local func    = checkIfOverLap
     local iteratelist = iterateList

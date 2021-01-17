@@ -5,43 +5,50 @@ PROJECTILE = {travel_offscreen = nil}
 PROJECTILE.__index = PROJECTILE
 setmetatable(PROJECTILE,OBJECT)
 
-local function updateProjectile(i)
-    if PROJ_LIST[i].move_func(PROJ_LIST[i]) == false then
-        table.remove(PROJ_LIST,i)
+function moveProj(proj,dt)
+    if proj.trvel_offscreen == false and proj:isPlayerVisible() == false then
+       return false
+   else
+       return moveStraightLine(proj,dt)
+   end
+
+end
+
+function updateProjectile(list,i,dt)
+    if list[i]:moveObject(dt) == false then
+        table.remove(list,i)
     else
-        local j = iterateList(SHIP_LIST,checkForCollision,PROJ_LIST[i])
+        local j = iterateList(SHIP_LIST,checkForCollision,list[i])
         if j ~= -1 then
-            table.remove(PROJ_LIST,i)
-            SHIP_LIST[i]:changeHealth(-1)
-            if SHIP_LIST[i].health == 0 then
-                table.remove(SHIP_LIST,j)
-            end
+            table.remove(list,i)
+            SHIP_LIST[j]:changeHealth(-1)
         end
     end
         return false
+end
+
+function printProj(list,i,_)
+    list[i]:printObj()
 end
 
 function updateAllProjectiles()
     iterateList(PROJ_LIST,upateProjectile,nil)
 end
 
-local function getIcon(missle)
+local function getIcon(missle,color)
     if missle == true then
-        return love.graphics.newImage("/assets/img/effects/missle.png")
+        return love.graphics.newImage("/assets/img/weapons/missile_" .. color .. ".png")
     else
-        return love.graphics.newImage("/assets/img/effects/laser" .. math.random(1,3) .. "png")
+        return love.graphics.newImage("/assets/img/weapons/laser" .. color .. "png")
     end
 end
 
-local function getShootFunc()
-    local shootfunc
-    return shootfun
-end
-
-function PROJECTILE:new(start_x,start_y,angle,t_off,missle,color)
+function PROJECTILE:new(start_x,start_y,angle,t_off,missle,color,speed)
     local icon        = getIcon(missle,color)
-    local o           = setmetatable(OBJECT:new(start_x,start_y,angle,icon))
+    local o           = setmetatable(OBJECT:new(start_x,start_y,angle,icon),PROJECTILE)
     o.trave_offscreen = t_off
-    o.shoot_func      = getShootFunc()
+    o.move_func       = moveProj
+    o.speed           = speed
+    return o
 end
 

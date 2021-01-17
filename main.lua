@@ -27,6 +27,7 @@ function love.draw()
     love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
     love.graphics.draw(BG_CANVAS)
     iterateList(SHIP_LIST,printShip)
+    iterateList(PROJ_LIST,printProj)
     PLAYER:printPlayer()
     love.graphics.pop()
 end
@@ -41,11 +42,16 @@ function love.keypressed(_,scancode,_)
 end
 
 function love.mousepressed(x,y,button,_,_)
+    if button == 1 then
+        local proj = PROJECTILE:new(PLAYER.x,PLAYER.y,PLAYER.print_angle,false,true,"blue",PLAYER.speed)
+        table.insert(PROJ_LIST,proj)
+    end
 
 end
 
 function love.update(dt)
     iterateList(SHIP_LIST,updateShip,dt)
+    iterateList(PROJ_LIST,updateProjectile,dt)
     if love.keyboard.isScancodeDown('w') then
         MOVE = true
     else
@@ -61,8 +67,8 @@ function love.load()
     WINDOW_H      = 900
     HALF_W        = WINDOW_W / 2
     HALF_H        = WINDOW_H / 2
-    GAME_W        = math.random(1000,3000)
-    GAME_H        = math.random(1000,3000)
+    GAME_W        = 4000 
+    GAME_H        = 4000 
     love.window.setMode(WINDOW_W,WINDOW_H)
     BG_CANVAS     = makeBackground()
     SHIP_LIST     = {}

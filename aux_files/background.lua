@@ -30,9 +30,8 @@ function makeBackground()
     local getxy     = getXY
     love.graphics.setCanvas(bg_canvas)
     for i=1,n,1 do
-        local x,y    = makeXY(BG_LIST)
-
-        local angle  = getAngle("BG")
+        local x,y    = makeXY(BG_LIST,rand)
+        local angle  = getAngle(rand)
         local icon   = getIcon(rand)
         local bg_obj = OBJECT:new(x,y,angle,icon)
         add(BG_LIST,bg_obj)
