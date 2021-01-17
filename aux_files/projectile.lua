@@ -35,16 +35,7 @@ function updateAllProjectiles()
     iterateList(PROJ_LIST,upateProjectile,nil)
 end
 
-local function getIcon(missle,color)
-    if missle == true then
-        return love.graphics.newImage("/assets/img/weapons/missile_" .. color .. ".png")
-    else
-        return love.graphics.newImage("/assets/img/weapons/laser" .. color .. "png")
-    end
-end
-
-function PROJECTILE:new(start_x,start_y,angle,t_off,missle,color,speed)
-    local icon        = getIcon(missle,color)
+function PROJECTILE:new(start_x,start_y,angle,t_off,missle,icon,speed)
     local o           = setmetatable(OBJECT:new(start_x,start_y,angle,icon),PROJECTILE)
     o.trave_offscreen = t_off
     o.move_func       = moveProj

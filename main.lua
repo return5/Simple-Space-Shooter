@@ -43,8 +43,7 @@ end
 
 function love.mousepressed(x,y,button,_,_)
     if button == 1 then
-        local proj = PROJECTILE:new(PLAYER.x,PLAYER.y,PLAYER.print_angle,false,true,"blue",PLAYER.speed)
-        table.insert(PROJ_LIST,proj)
+        PLAYER.shoot_func(PLAYER)
     end
 
 end
@@ -73,7 +72,7 @@ function love.load()
     BG_CANVAS     = makeBackground()
     SHIP_LIST     = {}
     PROJ_LIST     = {}
-    PLAYER        = SHIP:makePlayer()
+    PLAYER        = PLAYER_SHIP:makePlayer()
     makeEnemyShips()
     PLAY          = true
     MOVE          = false
