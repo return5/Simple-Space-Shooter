@@ -108,7 +108,7 @@ local function getProjectileIcon(rand,missile)
     if missile == true then
         icon = "/assets/img/weapons/missile_" .. color .. ".png"
     else
-        icon = "/assers/ing/weapons/laser_" .. color .. ".png"
+        icon = "/assets/img/weapons/laser_" .. color .. ".png"
     end
     return love.graphics.newImage(icon)
 end
@@ -117,7 +117,7 @@ local function getMissileOrLaser(rand,ship_type)
     if ship_type == TYPE_NAMES[2] then
         return false
     end
-    return random(1,3) < 3
+    return rand(1,3) < 3
 end
 
 local function getHealth(ship_type)
@@ -157,7 +157,7 @@ function SHIP:new(rand,ship_type,chase)
     o.health             = getHealth(ship_type)
     o.max_health         = o.health
     o.time_since_shot    = love.timer.getTime()
-    o.missile            = true -- getMissleOrLaser(rand)
+    o.missile            = getMissileOrLaser(rand,ship_type)
     o.proj_icon          = getProjectileIcon(rand,o.missile)
     o.speed              = getSpeed(rand,ship_type,chase)
     o.t_off              = getTOff(rand,ship_type)
