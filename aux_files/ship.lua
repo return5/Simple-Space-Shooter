@@ -113,7 +113,10 @@ local function getProjectileIcon(rand,missile)
     return love.graphics.newImage(icon)
 end
 
-local function getMissileOrLaser(rand)
+local function getMissileOrLaser(rand,ship_type)
+    if ship_type == TYPE_NAMES[2] then
+        return false
+    end
     return random(1,3) < 3
 end
 

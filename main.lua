@@ -17,9 +17,8 @@
             along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local Obj         = require("aux_files.object")
 local Proj        = require("aux_files.projectile")
-local Enemy_ship  = require("aux_files.enemy_ship")
+local Ufo         = require("aux_files.ufo")
 local Player_ship = require("aux_files.player_ship")
 local Background  = require("aux_files.background")
 
@@ -68,6 +67,22 @@ function love.update(dt)
     end
     PLAYER:updatePlayer(dt)
 end
+
+--make list of enemy ships
+local function makeEnemyShips()
+    local rand = math.random
+    local add  = table.insert
+    local n = math.random(20,60)
+    for i=1,n,1 do
+        local ship_type ="UFO" --getShipType(rand)
+        if ship_type == "UFO" then
+            add(SHIP_LIST,UFO:new(rand,ship_type))
+        else
+            add(SHIP_LIST,ENEMY_SHIP:new(rand,ship_type))
+        end
+    end
+end
+
 
 function love.load()
     math.randomseed(os.time())

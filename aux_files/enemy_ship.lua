@@ -58,9 +58,7 @@ function lookAtPlayer(ship)
 end
 
 local function getShootFunc(rand,ship_type)
-   if ship_type == TYPE_NAMES[2] then
-       return ufoShoot
-   elseif ship_type == TYPE_NAMES[4] then
+    if ship_type == TYPE_NAMES[4] or ship_type == TYPE_NAMES[2]then
        return nil
    else
        return rand(0,5) < 4 and shootSingle or shootCircle
@@ -113,7 +111,7 @@ local function getChase(rand,ship_type)
     return false
 end
 
-local function getShipType(rand)
+function getShipType(rand)
     if rand(1,3) < 3 then
         return TYPE_NAMES[1]
     else
@@ -129,8 +127,7 @@ local function getProjSpeed(rand,ship_speed)
     return speed
 end
 
-function ENEMY_SHIP:new(rand)
-    local ship_type      = getShipType(rand)
+function ENEMY_SHIP:new(rand,ship_type)
     local chase          = getChase(rand,ship_type)
     local o              = setmetatable(SHIP:new(rand,ship_type,chase),ENEMY_SHIP)
     o.chase              = chase
@@ -142,15 +139,6 @@ function ENEMY_SHIP:new(rand)
     o.proj_speed         = getProjSpeed(rand,o.speed)
     o.shoot_if_player_notvis = rand(1,3) < 3 
     return o
-end
-
-function makeEnemyShips()
-    local rand = math.random
-    local add  = table.insert
-    local n = math.random(20,60)
-    for i=1,n,1 do
-        add(SHIP_LIST,ENEMY_SHIP:new(rand))
-    end
 end
 
 
