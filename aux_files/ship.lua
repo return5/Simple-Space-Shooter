@@ -14,7 +14,7 @@ SHIP.__index = SHIP
 setmetatable(SHIP,OBJECT)
 
 TYPE_NAMES  = {"Fighter","UFO","Rocket","Satellite","Space_station","Solitary_Ship"}
-local PROJ_COLORS = {"blue","red","green"}
+local PROJ_COLORS = {"blue","red","green","yellow"}
 
 
 function shootSingle(list,ship)
