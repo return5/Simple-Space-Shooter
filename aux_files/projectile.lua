@@ -17,12 +17,6 @@ end
 function updateProjectile(list,i,dt)
     if list[i]:moveObject(dt) == false then
         table.remove(list,i)
-    else
-        local j = iterateList(SHIP_LIST,checkForCollision,list[i])
-        if j ~= -1 then
-            table.remove(list,i)
-            SHIP_LIST[j]:changeHealth(-1)
-        end
     end
         return false
 end

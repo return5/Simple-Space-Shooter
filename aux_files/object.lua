@@ -51,10 +51,7 @@ end
 
 --check left and right side of object for collision
 local function checkXCollision(obj1,obj2)
-    if obj1.x + obj1.x_off >= obj2.x and obj1.x <= obj2.x + obj2.x_off then
-        return true
-    end
-    if obj1.x <= obj2.x and obj1.x + obj1.x_off >= obj2.x + obj2.x_off then
+    if obj1.x <= obj2.x + obj2.icon:getWidth() and obj1.x + obj1.icon:getWidth() >= obj2.x then
         return true
     end
     return false
@@ -62,10 +59,7 @@ end
 
 --check top and bottom of obj for collision
 local function checkYCollision(obj1,obj2)
-    if obj1.y + obj1.y_off >= obj2.y and obj1.y <= obj2.y + obj2.y_off then
-        return true
-    end
-    if obj1.y <= obj2.y and obj1.y + obj1.y >= obj2.y + obj2.y_off then
+    if obj1.y  <= obj2.y + obj2.icon:getHeight() and obj1.y + obj1.icon:getHeight() >= obj2.y   then
         return true
     end
     return false

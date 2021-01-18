@@ -17,17 +17,19 @@
             along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local Obj        = require("aux_files.object")
-local Ship       = require("aux_files.ship")
-local Proj       = require("aux_files.projectile")
-local Background = require("aux_files.background")
+local Obj         = require("aux_files.object")
+local Proj        = require("aux_files.projectile")
+local Enemy_ship  = require("aux_files.enemy_ship")
+local Player_ship = require("aux_files.player_ship")
+local Background  = require("aux_files.background")
 
 function love.draw()
     love.graphics.push()
     love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
     love.graphics.draw(BG_CANVAS)
-    iterateList(SHIP_LIST,printShip)
-    iterateList(PROJ_LIST,printProj)
+    iterateList(SHIP_LIST,printEnemyShip)
+    iterateList(PLAYER_PROJ,printProj)
+    iterateList(ENEMY_PROJ,printProj)
     PLAYER:printPlayer()
     love.graphics.pop()
 end
@@ -43,14 +45,15 @@ end
 
 function love.mousepressed(x,y,button,_,_)
     if button == 1 then
-        PLAYER.shoot_func(PLAYER)
+        PLAYER:shootFunc()
     end
 
 end
 
 function love.update(dt)
-    iterateList(SHIP_LIST,updateShip,dt)
-    iterateList(PROJ_LIST,updateProjectile,dt)
+    iterateList(SHIP_LIST,updateEnemyShip,dt)
+    iterateList(PLAYER_PROJ,updateProjectile,dt)
+    iterateList(ENEMY_PROJ,updateProjectile,dt)
     if love.keyboard.isScancodeDown('w') then
         MOVE = true
     else
@@ -71,7 +74,8 @@ function love.load()
     love.window.setMode(WINDOW_W,WINDOW_H)
     BG_CANVAS     = makeBackground()
     SHIP_LIST     = {}
-    PROJ_LIST     = {}
+    PLAYER_PROJ   = {}
+    ENEMY_PROJ    = {}
     PLAYER        = PLAYER_SHIP:makePlayer()
     makeEnemyShips()
     PLAY          = true
