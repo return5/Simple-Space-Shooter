@@ -37,7 +37,7 @@ function PLAYER_SHIP:updatePlayer(dt)
         table.remove(ENEMY_PROJ,j)
         self:changeHealth(-1)
     end
-    if FACE_MOUSE == true then  --if player not holding down mouse button 2
+    if FACE_MOUSE == true then  --if player has toggles FACE_MOUSE on
         --player ship should turn to face mouse pointer
         self:playerTargetMouse()
         self.move_angle  = self.target_angle
@@ -56,7 +56,7 @@ function PLAYER_SHIP:makePlayer()
     o.shoot_func         = shootSingle
     o.time_between_shots = 0.5
     o.proj_speed         = o.speed * 1.5
-    o.target_mouse       = true
+    o.target_mouse       = false
     --o.sound          = getSound(moveable) 
    -- o.shoot_func     = getShootFunc(moveable,chase)
     return o
