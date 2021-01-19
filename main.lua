@@ -39,11 +39,6 @@ function love.draw()
     printUI()
 end
 
---get the x and y of mouse pointer
-function playerTargetMouse()
-    PLAYER.target_x = love.mouse.getX() + PLAYER.x - HALF_W
-    PLAYER.target_y = love.mouse.getY() + PLAYER.y - HALF_H
-end
 
 function love.keypressed(_,scancode,_)
 
@@ -52,6 +47,9 @@ end
 function love.mousepressed(x,y,button,_,_)
     if button == 1 then  --if player pressed left click then shoot a projectile
         PLAYER:shootFunc()
+    end
+    if button == 2 then
+        FACE_MOUSE = not FACE_MOUSE 
     end
 
 end
@@ -65,6 +63,11 @@ function love.update(dt)
     else
         MOVE = false
     end
+    if love.keyboard.isScancodeDown("a") then  --if player presses 'a' key
+        PLAYER.move_angle = PLAYER.move_angle - 0.174532 --rotate players ship by 25 degrees
+    elseif love.keyboard.isScancodeDown('d') then
+        PLAYER.move_angle = PLAYER.move_angle + 0.174532--0.43633
+    end
     PLAYER:updatePlayer(dt)
 end
 
@@ -73,13 +76,13 @@ local function makeEnemyShips()
     local rand = math.random
     local add  = table.insert
     local n = math.random(20,60)
-    for i=1,n,1 do
+   -- for i=1,n,1 do
         local ship_type = getShipType(rand)
         if ship_type == "UFO" then
-            add(SHIP_LIST,UFO:new(rand,ship_type))
+      --      add(SHIP_LIST,UFO:new(rand,ship_type))
         else
-            add(SHIP_LIST,ENEMY_SHIP:new(rand,ship_type))
-        end
+          --  add(SHIP_LIST,ENEMY_SHIP:new(rand,ship_type))
+     --   end
     end
 end
 
@@ -101,6 +104,7 @@ function love.load()
     makeEnemyShips()  
     PLAY          = true    --should game keep going
     MOVE          = false   --is player moving
+    FACE_MOUSE    = true    --should player ship face the mouse pointer
     PLAYER_SCORE  = 0       --player's score
     love.keyboard.setKeyRepeat(true)  --allow player to hold down a key 
    

@@ -8,6 +8,7 @@ setmetatable(PLAYER_SHIP,SHIP)
 
 
 function PLAYER_SHIP:printPlayer()
+    self.print_angle = self.move_angle
     self:printObj()
     if MOVE == true then
         self:printThruster()
@@ -18,6 +19,7 @@ end
 function PLAYER_SHIP:playerTargetMouse()
     self.target_x = love.mouse.getX() + self.x - HALF_W
     self.target_y = love.mouse.getY() + self.y - HALF_H
+    self:getNewTargetAngle()
 end
 
 function PLAYER_SHIP:shootFunc()
@@ -25,7 +27,6 @@ function PLAYER_SHIP:shootFunc()
         self.target_angle = self.move_angle
     else
         self:playerTargetMouse()
-        self:getNewTargetAngle()
     end
     self.shoot_func(PLAYER_PROJ,self)
 end
@@ -35,6 +36,12 @@ function PLAYER_SHIP:updatePlayer(dt)
     if j ~= -1 then
         table.remove(ENEMY_PROJ,j)
         self:changeHealth(-1)
+    end
+    if FACE_MOUSE == true then  --if player not holding down mouse button 2
+        --player ship should turn to face mouse pointer
+        self:playerTargetMouse()
+        self.move_angle  = self.target_angle
+        self.print_angle = self.target_angle
     end
     if MOVE == true then
         local x,y  = self:getNewXY(dt)
@@ -49,7 +56,7 @@ function PLAYER_SHIP:makePlayer()
     o.shoot_func         = shootSingle
     o.time_between_shots = 0.5
     o.proj_speed         = o.speed * 1.5
-    o.target_mouse       = false
+    o.target_mouse       = true
     --o.sound          = getSound(moveable) 
    -- o.shoot_func     = getShootFunc(moveable,chase)
     return o
