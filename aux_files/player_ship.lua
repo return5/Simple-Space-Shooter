@@ -2,7 +2,7 @@
 
 local Ship = require("aux_files.ship")
 
-PLAYER_SHIP = {}
+PLAYER_SHIP = {target_mouse = nil}
 PLAYER_SHIP.__index = PLAYER_SHIP
 setmetatable(PLAYER_SHIP,SHIP)
 
@@ -14,7 +14,19 @@ function PLAYER_SHIP:printPlayer()
     end
 end
 
+--get the x and y of mouse pointer
+function PLAYER_SHIP:playerTargetMouse()
+    self.target_x = love.mouse.getX() + self.x - HALF_W
+    self.target_y = love.mouse.getY() + self.y - HALF_H
+end
+
 function PLAYER_SHIP:shootFunc()
+    if self.target_mouse == false then
+        self.target_angle = self.move_angle
+    else
+        self:playerTargetMouse()
+        self:getNewTargetAngle()
+    end
     self.shoot_func(PLAYER_PROJ,self)
 end
 
@@ -24,8 +36,6 @@ function PLAYER_SHIP:updatePlayer(dt)
         table.remove(ENEMY_PROJ,j)
         self:changeHealth(-1)
     end
-    playerTargetMouse()
-    self:getNewTargetAngle()
     if MOVE == true then
         local x,y  = self:getNewXY(dt)
         self:changeXY(x,y)
@@ -39,6 +49,7 @@ function PLAYER_SHIP:makePlayer()
     o.shoot_func         = shootSingle
     o.time_between_shots = 0.5
     o.proj_speed         = o.speed * 1.5
+    o.target_mouse       = false
     --o.sound          = getSound(moveable) 
    -- o.shoot_func     = getShootFunc(moveable,chase)
     return o
