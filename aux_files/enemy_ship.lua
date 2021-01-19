@@ -30,6 +30,9 @@ function updateEnemyShip(list,i,dt)
     else
         if list[i]:moveObject(dt) == false then
             list[i]:getRandomAngle()
+            if list[i].ship_type ~= TYPE_NAMES[2] then
+                list[i].target_angle = list[i].move_angle
+            end
         end
         if list[i].shoot_func ~= nil then
             list[i]:shootFunc()
@@ -49,12 +52,17 @@ local function getMoveFunc(ship)
 end
 
 --look at a random spot near player position
-function lookAtPlayer(ship)
-    if ship:isPlayerVisible() == true and love.timer.getTime() - ship.time_since_seen > 2 then
-        ship.target_x = math.random(PLAYER.x - 5, PLAYER.x + 5)
-        ship.target_y = math.random(PLAYER.y - 5,PLAYER.y + 5)
-        ship:getNewAngle()
+function ENEMY_SHIP:targetPlayer()
+    if self:isPlayerVisible() == true and love.timer.getTime() - self.time_since_seen > 2 then
+        self.target_x = math.random(PLAYER.x - 10, PLAYER.x + 10)
+        self.target_y = math.random(PLAYER.y - 10,PLAYER.y + 10)
+        self:getNewTargetAngle()
     end
+end
+
+
+function lookAtPlayer(ship)
+    ship:targetPlayer()
 end
 
 local function getShootFunc(rand,ship_type)
@@ -89,7 +97,8 @@ end
 function ENEMY_SHIP:getRandomAngle()
     self.move_angle = self.move_angle - 1.57079 * math.random() * 3.14159
     if self.ship_type ~= TYPE_NAMES[2] then
-        self.print_angle = self.move_angle
+        self.print_angle  = self.move_angle
+        self.target_ablge = self.move_angle
     end
 end
 
@@ -97,6 +106,8 @@ end
 function chasePlayer(ship,dt)
     if ship:isPlayerVisible() == true then
         lookAtPlayer(ship)
+        ship.move_angle  = ship.target_angle
+        ship.print_angle = ship.target_angle
         moveStraightLine(ship,dt)
         ship.time_since = love.timer.getTime()
     else

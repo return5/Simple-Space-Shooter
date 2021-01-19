@@ -7,7 +7,7 @@ local Thrust = require("aux_files.thruster")
 SHIP = { 
             x = nil, y = nil,target_x = nil, target_y = nil,speed = nil,health = nil, max_health = nil,thruster = nil,
             missile = nil,time_since_shot = nil, time_between_shots = nil,proj_speed = nil,shoot_func = nil,t_off = nil,
-            proj_icon = nil
+            proj_icon = nil,target_angle = nil
         }
 
 SHIP.__index = SHIP
@@ -19,7 +19,7 @@ local PROJ_COLORS = {"blue","red","green","yellow"}
 
 function shootSingle(list,ship)
     if love.timer.getTime() - ship.time_since_shot > ship.time_between_shots then
-        table.insert(list,PROJECTILE:new(ship.x,ship.y,ship.move_angle,ship.t_off,ship.missile,ship.proj_icon,ship.proj_speed))
+        table.insert(list,PROJECTILE:new(ship.x,ship.y,ship.target_angle,ship.t_off,ship.missile,ship.proj_icon,ship.proj_speed))
         ship.time_since_shot = love.timer.getTime()
     end
 end
@@ -27,7 +27,7 @@ end
 function shootCircle(list,ship)
     if love.timer.getTime() - ship.time_since_shot > ship.time_between_shots then
         local add   = table.insert
-        local angle = ship.print_angle
+        local angle = ship.target_angle
         for i=1,12,1 do
             angle = angle - 0.5235988
             add(list,PROJECTILE:new(ship.x,ship.y,angle,ship.t_off,ship.missile,ship.proj_icon,ship.proj_speed))
@@ -54,11 +54,8 @@ function SHIP:changeHealth(h)
 end
 
 --change angle of ship based on targeting location
-function SHIP:getNewAngle()
-    self.move_angle = math.atan2(self.target_y - self.y,self.target_x - self.x)
-    if self.ship_type ~= TYPE_NAMES[2] then
-        self.print_angle = self.move_angle
-    end
+function SHIP:getNewTargetAngle()
+    self.target_angle = math.atan2(self.target_y - self.y,self.target_x - self.x)
 end
 
 local function getIcon(rand,ship_type)
@@ -81,9 +78,11 @@ local function getIcon(rand,ship_type)
       return love.graphics.newImage(icon)
 end
 
-local function getSound(rand)
-    local n = rand(1,3)
-    return love.audio.newSource("","static")
+local function getSound(rand,missile)
+    if missile == true then
+        return love.audio.newSource("assets/sounds/weapons/missile_sound_" .. rand(1,3) ..".oog","static")
+    end
+    return love.audio.newSource("asstes/sounds/weapons/laser_sound_" .. rand(1,5) .. ".oog","static")
 end
 
 function getSpeed(rand,ship_type,chase)
@@ -152,6 +151,7 @@ function SHIP:new(rand,ship_type,chase)
     o.ship_type          = ship_type
     o.moveable           = getMoveable(ship_type)
     o.move_angle         = getAngle(rand)
+    o.target_angle       = o.move_angle
     o.print_angle        = o.ship_type ~= TYPE_NAMES[2] and o.move_angle or 0
     o.thruster           = getThruster(rand,o) 
     o.health             = getHealth(ship_type)

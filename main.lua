@@ -74,7 +74,7 @@ local function makeEnemyShips()
     local add  = table.insert
     local n = math.random(20,60)
     for i=1,n,1 do
-        local ship_type ="UFO" --getShipType(rand)
+        local ship_type = getShipType(rand)
         if ship_type == "UFO" then
             add(SHIP_LIST,UFO:new(rand,ship_type))
         else

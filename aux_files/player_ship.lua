@@ -25,7 +25,7 @@ function PLAYER_SHIP:updatePlayer(dt)
         self:changeHealth(-1)
     end
     playerTargetMouse()
-    self:getNewAngle()
+    self:getNewTargetAngle()
     if MOVE == true then
         local x,y  = self:getNewXY(dt)
         self:changeXY(x,y)
