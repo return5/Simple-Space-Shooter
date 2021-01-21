@@ -57,6 +57,7 @@ function PLAYER_SHIP:makePlayer()
     o.time_between_shots = 0.5
     o.proj_speed         = o.speed * 1.5
     o.target_mouse       = false
+    o.thruster           = THRUSTER:new(o.x,o.y,o.move_angle,rand) 
     --o.sound          = getSound(moveable) 
    -- o.shoot_func     = getShootFunc(moveable,chase)
     return o
