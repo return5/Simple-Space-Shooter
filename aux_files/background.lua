@@ -5,7 +5,7 @@ local Obj  = require("aux_files.object")
 --list of all background objects
 local BG_LIST = {}
 
---print object to background canvas
+--get icon for background planet 
 local function getIcon(rand)
     return love.graphics.newImage("/assets/img/planets/planet_icon_" .. rand(1,41) ..".png")
 end
@@ -19,7 +19,6 @@ local function drawBorderToCanvas()
     love.graphics.line(1,1,1,GAME_H)
     love.graphics.line(GAME_W,1,GAME_W,GAME_H)
 end
-
 
 --create the background for the game
 function makeBackground()

@@ -1,6 +1,5 @@
---File contins parent class for all objects of the game. 
 
-OBJECT = {x = nil, y = nil, x_off = nil, y_off = nil,icon = nil,move_angle = nil,print_angle = nil,move_func = nil,ship_type = nil}
+OBJECT = {x = nil, y = nil, x_off = nil, y_off = nil,icon = nil,move_angle = nil,move_func = nil}
 OBJECT.__index = OBJECT
 
 
@@ -24,9 +23,9 @@ function OBJECT:getNewXY(dt)
 end
 
 --move in a straight line in direction facing
-function moveStraightLine(obj,dt)
-    local new_x,new_y = obj:getNewXY(dt)
-    return obj:changeXY(new_x,new_y) 
+function OBJECT:moveStraightLine(dt)
+    local new_x,new_y = self:getNewXY(dt)
+    return self:changeXY(new_x,new_y) 
 end
 
 --checks to see if object overlaps another object
@@ -83,23 +82,29 @@ function OBJECT:isPlayerVisible()
     return false
 end
 
-function OBJECT:moveObject(dt)
-    return self.move_func(self,dt)
-end
-
 function OBJECT:printObj()
-    love.graphics.draw(self.icon,self.x,self.y,self.print_angle,nil,nil,self.x_off,self.y_off)
+    love.graphics.draw(self.icon,self.x,self.y,self.move_angle,nil,nil,self.x_off,self.y_off)
 end
 
 function printObject(list,i,_)
-    list[i]:printObj()
+    list[i]:print_func()
     return false
+end
+
+function moveObj(list,i,dt)
+    list[i]:move_func(dt)
+    return false
+end
+
+
+function updateObject(list,i,dt)
+    list[i]:update(list,i,dt)
 end
 
 function iterateList(list,func,params)
     if list ~= nil then
         for i=#list,1,-1 do
-            if list[i] ~=nil then
+            if list[i] ~= nil then
                 if func(list,i,params) == true then
                     return i
                 end
@@ -130,9 +135,9 @@ function OBJECT:new(x,y,angle,icon)
     o.x           = x
     o.y           = y
     o.move_angle  = angle
-    o.print_angle = angle
     o.x_off       = icon:getWidth() / 2
     o.y_off       = icon:getHeight() / 2
+    o.print_func  = OBJECT.printObj
     return o
 end
 

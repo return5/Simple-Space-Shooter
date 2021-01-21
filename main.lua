@@ -21,6 +21,9 @@ local Proj        = require("aux_files.projectile")
 local Ufo         = require("aux_files.ufo")
 local Player_ship = require("aux_files.player_ship")
 local Background  = require("aux_files.background")
+local Fighter     = require("aux_files.fighter")
+local Stationary  = require("aux_files.stationary")
+local Satellite   = require("aux_files.satellite")
 
 local function printUI()
     love.graphics.print("Player health: " .. PLAYER.health,1,1)
@@ -31,9 +34,9 @@ function love.draw()
     love.graphics.push()
     love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
     love.graphics.draw(BG_CANVAS)
-    iterateList(SHIP_LIST,printEnemyShip)
-    iterateList(PLAYER_PROJ,printProj)
-    iterateList(ENEMY_PROJ,printProj)
+    iterateList(SHIP_LIST,printObject)
+   -- iterateList(PLAYER_PROJ,printProj)
+   -- iterateList(ENEMY_PROJ,printProj)
     PLAYER:printPlayer()
     love.graphics.pop()
     printUI()
@@ -55,9 +58,9 @@ function love.mousepressed(x,y,button,_,_)
 end
 
 function love.update(dt)
-    iterateList(SHIP_LIST,updateEnemyShip,dt)    --loop over all enemy ships and update each one
-    iterateList(PLAYER_PROJ,updateProjectile,dt) --loop over all player projectiles and update each one
-    iterateList(ENEMY_PROJ,updateProjectile,dt)  --loop over each enemy projectile and update each one
+    iterateList(SHIP_LIST,updateObject,dt)    --loop over all enemy ships and update each one
+    iterateList(PLAYER_PROJ,updateObject,dt) --loop over all player projectiles and update each one
+    iterateList(ENEMY_PROJ,updateObject,dt)  --loop over each enemy projectile and update each one
     if love.keyboard.isScancodeDown('w') then    -- if player is pressing the 'w' key
         MOVE = true
     else
@@ -75,14 +78,18 @@ end
 local function makeEnemyShips()
     local rand = math.random
     local add  = table.insert
-    local n = math.random(20,60)
-   -- for i=1,n,1 do
-        local ship_type = getShipType(rand)
-        if ship_type == "UFO" then
-      --      add(SHIP_LIST,UFO:new(rand,ship_type))
-        else
-          --  add(SHIP_LIST,ENEMY_SHIP:new(rand,ship_type))
-     --   end
+    local n    = rand(20,60)
+    for i=1,n,1 do
+        local i = rand(1,8)
+        --if i < 3 then
+            add(SHIP_LIST,FIGHTER:new(rand))
+      --  elseif i < 5 then
+          --  add(SHIP_LIST,STATIONARY:new(rand))
+      --  elseif i < 8 then
+          --  add(SHIP_LIST,SATELLITE:new(rand))
+       -- else
+          --  add(SHIP_LIST,UFO:new(rand))
+      --  end
     end
 end
 
@@ -100,7 +107,9 @@ function love.load()
     SHIP_LIST     = {}  --list of all enemy ships
     PLAYER_PROJ   = {}  --list of projectiles shot by player
     ENEMY_PROJ    = {}  --list of projectiles shot by enemy
+    MAX_SPEED     = 275
     PLAYER        = PLAYER_SHIP:makePlayer()  
+    MAX_SPEED     = PLAYER.speed
     makeEnemyShips()  
     PLAY          = true    --should game keep going
     MOVE          = false   --is player moving

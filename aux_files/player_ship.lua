@@ -28,7 +28,7 @@ function PLAYER_SHIP:shootFunc()
     else
         self:playerTargetMouse()
     end
-    self.shoot_func(PLAYER_PROJ,self)
+    self:shoot_func(PLAYER_PROJ)
 end
 
 function PLAYER_SHIP:updatePlayer(dt)
@@ -37,7 +37,7 @@ function PLAYER_SHIP:updatePlayer(dt)
         table.remove(ENEMY_PROJ,j)
         self:changeHealth(-1)
     end
-    if FACE_MOUSE == true then  --if player has toggles FACE_MOUSE on
+    if FACE_MOUSE == true then  --if player has toggled FACE_MOUSE on
         --player ship should turn to face mouse pointer
         self:playerTargetMouse()
         self.move_angle  = self.target_angle
@@ -51,8 +51,8 @@ end
 
 function PLAYER_SHIP:makePlayer()
     local rand           = math.random
-    local ship_type      = "Player"
-    local o              = setmetatable(SHIP:new(rand,ship_type,false),PLAYER_SHIP)
+    local icon           = love.graphics.newImage("assets/img/ships/player.png")
+    local o              = setmetatable(SHIP:new(rand,icon),PLAYER_SHIP)
     o.shoot_func         = shootSingle
     o.time_between_shots = 0.5
     o.proj_speed         = o.speed * 1.5

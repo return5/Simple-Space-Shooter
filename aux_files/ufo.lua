@@ -1,4 +1,5 @@
 --File conatins functions for ufo objects
+--UFO are ships which hdont change print angle, and have a target angle independent of move angle
 
 local Enemy_ship = require("aux_files.enemy_ship")
 
@@ -8,17 +9,22 @@ UFO.__index = UFO
 setmetatable(UFO,ENEMY_SHIP)
 
 
-function ufoShoot(list,ship)
-    lookAtPlayer(ship)
-    if ship.shoot_if_player_notvis == true or ship:isPlayerVisible() == true then
-        shootSingle(ENEMY_PROJ,ship)
+function UFO:ufoShoot(list)
+    self.target_angle = self:targetPlayer()
+    if self.shoot_if_player_notvis == true or self:isPlayerVisible() == true then
+        self:shootSingle(ENEMY_PROJ)
     end
 end
 
+function UFO:printObj()
+    love.graphics.draw(self.icon,self.x,self.y,0,nil,nil,self.x_off,self.y_off)
+end
 
-function UFO:new(rand,ship_type)
-    local o = setmetatable(ENEMY_SHIP:new(rand,ship_type),UFO)
-    o.shoot_func = ufoShoot
+
+function UFO:new(rand)
+    local icon        = love.graphics.newImage("assets/img/ships/ufo.png")
+    local o           = setmetatable(ENEMY_SHIP:new(rand,icon),UFO)
+    o.shoot_func      = UFO.ufoShoot
     o.shoot_target_x  = rand(1,GAME_W)
     o.shoot_target_y  = rand(1,GAME_H)
     return o

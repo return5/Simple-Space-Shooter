@@ -1,5 +1,6 @@
 --File deals with functions involving thruster objects
 
+local Object = require("aux_files.object")
 
 THRUSTER = {}
 THRUSTER.__index = THRUSTER

@@ -14,15 +14,11 @@ function moveProj(proj,dt)
 
 end
 
-function updateProjectile(list,i,dt)
-    if list[i]:moveObject(dt) == false then
+function PROJECTILE:update(list,i,dt)
+    if list[i]:moveStraightLine(dt) == false then
         table.remove(list,i)
     end
         return false
-end
-
-function printProj(list,i,_)
-    list[i]:printObj()
 end
 
 function updateAllProjectiles()
@@ -32,7 +28,7 @@ end
 function PROJECTILE:new(start_x,start_y,angle,t_off,missle,icon,speed)
     local o           = setmetatable(OBJECT:new(start_x,start_y,angle,icon),PROJECTILE)
     o.trave_offscreen = t_off
-    o.move_func       = moveProj
+    o.move_func       = OBJECT.moveStraightLine
     o.speed           = speed
     return o
 end
