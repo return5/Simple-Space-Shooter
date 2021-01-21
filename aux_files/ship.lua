@@ -128,7 +128,6 @@ function SHIP:new(rand,icon)
     local x,y            = makeXY(SHIP_LIST,rand)
     local angle          = getAngle(rand)
     local o              = setmetatable(OBJECT:new(x,y,angle,icon),SHIP)
-    o.thruster           = THRUSTER:new(x,y,move_angle,rand) 
     o.health             = getHealth()
     o.max_health         = o.health
     o.time_since_shot    = love.timer.getTime()
