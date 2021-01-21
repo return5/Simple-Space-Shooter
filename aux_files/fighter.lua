@@ -21,6 +21,7 @@ function FIGHTER:new(rand)
     o.score      = chase == true and 20 or 10
     o.thruster   = THRUSTER:new(o.x,o.y,o.move_angle,rand)
     o.shoot_func = rand(1,3) < 3 and SHIP.shootSingle or SHIP.shootCircle
+    o.speed      = rand(55,MAX_SPEED - 90)
     return o
 end
 
