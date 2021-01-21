@@ -38,7 +38,7 @@ function SHIP:printThruster()
     if self.thruster ~= nil then
         self.thruster.x           = self.x
         self.thruster.y           = self.y
-        self.thruster.print_angle = self.move_angle
+        self.thruster.move_angle  = self.move_angle
         self.thruster:printObj()
     end
 end
