@@ -26,13 +26,16 @@ local function getStationaryShootFunc(s_type,rand)
     return func
 end
 
+function STATIONARY:moveFunc(dt)
+    self.move_angle = self:targetPlayer()
+end
+
 function STATIONARY:new(rand)
     local s_type = getStationaryType(rand) 
     local icon   = getStationaryIcon(s_typ,rand) 
     local o      = setmetatable(ENEMY_SHIP:new(rand,icon),STATIONARY)
-    o.move_func  = ENEMY_SHIP.targetPlayer
+    o.move_func  = STATIONARY.moveFunc
     o.shootFunc  = getStationaryShootFunc(s_type,rand)
-    o.print_func = OBJECT.printObj
     return o
 end
 
