@@ -8,10 +8,10 @@ setmetatable(STATIONARY,ENEMY_SHIP)
 
 
 local function getStationaryType(rand) 
-    return rand(1,3) < 3 and "Station" or "Rocket"
+    return rand(1,2) < 2 and "Station" or "Rocket"
 end
 
-local function getStationaryIcon(s_typ,rand) 
+local function getStationaryIcon(s_type,rand) 
     local icon = s_type == "Rocket" and "assets/img/ships/rocket.png" or "assets/img/ships/Space_Station_" .. rand(1,3) .. ".png"
     return love.graphics.newImage(icon)
 end
@@ -32,7 +32,7 @@ end
 
 function STATIONARY:new(rand)
     local s_type = getStationaryType(rand) 
-    local icon   = getStationaryIcon(s_typ,rand) 
+    local icon   = getStationaryIcon(s_type,rand) 
     local o      = setmetatable(ENEMY_SHIP:new(rand,icon),STATIONARY)
     o.move_func  = STATIONARY.moveFunc
     o.shootFunc  = getStationaryShootFunc(s_type,rand)
