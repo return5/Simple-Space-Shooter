@@ -5,17 +5,17 @@ local Proj = require("aux_files.projectile")
 WEAPON = {proj_speed = nil,proj_icon = nil,time_since_shot = nil,time_between_shots = nil,t_off = nil}
 WEAPON.__index = WEAPON
 
-CIRCLE_SHOOT = {}
-CIRCLE_SHOOT.__index = CIRCLE_SHOOT
-setmetatable(CIRCLE_SHOOT,WEAPON)
+CIRCLE_SHOT = {}
+CIRCLE_SHOT.__index = CIRCLE_SHOOT
+setmetatable(CIRCLE_SHOT,WEAPON)
 
-SINGLE_SHOOT = {}
-SINGLE_SHOOT.__index = SINGLE_SHOOT
-setmetatable(SINGLE_SHOOT,WEAPON)
+SINGLE_SHOT = {}
+SINGLE_SHOT.__index = SINGLE_SHOOT
+setmetatable(SINGLE_SHOT,WEAPON)
 
-MULTI_SHOOT = {}
-MULTI_SHOOT.__index = MULTI_SHOOT
-setmetatable(MULTI_SHOOT,WEAPON)
+MULTI_SHOT = {}
+MULTI_SHOT.__index = MULTI_SHOOT
+setmetatable(MULTI_SHOT,WEAPON)
 
 UFO_SHOOT = {}
 UFO_SHOOT.__index = UFO_SHOOT
@@ -30,7 +30,7 @@ function SINGLE_SHOT:shootFunc(ship,list)
     end
 end
 
-function CIRCLE_SHOOT:shootFunc(ship,list)
+function CIRCLE_SHOT:shootFunc(ship,list)
     if love.timer.getTime() - self.time_since_shot > self.time_between_shots then
         local add   = table.insert
         local angle = self.target_angle
@@ -42,18 +42,18 @@ function CIRCLE_SHOOT:shootFunc(ship,list)
     end
 end
 
-function CIRCLE_SHOOT:new(rand)
-    local o = setmetatable(WEAPON:new(rand),CIRCLE_SHOOT)
+function CIRCLE_SHOT:new(rand)
+    local o = setmetatable(WEAPON:new(rand),CIRCLE_SHOT)
     return o
 end
 
-function SINGLE_SHOOT:new(rand)
-    local o = setmetatable(WEAPON:new(rand),SINGLE_SHOOT)
+function SINGLE_SHOT:new(rand)
+    local o = setmetatable(WEAPON:new(rand),SINGLE_SHOT)
     return o
 end
 
-function MULTI_SHOOT:new(rand)
-    local o = setmetatable(WEAPON:new(rand),MULTI_SHOOT)
+function MULTI_SHOT:new(rand)
+    local o = setmetatable(WEAPON:new(rand),MULTI_SHOT)
     return o
 end
 

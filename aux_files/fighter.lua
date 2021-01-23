@@ -13,12 +13,17 @@ function FIGHTER:chasePlayer(dt)
         self:moveStraight(dt)
 end
 
-function FIGHTERLmoveFunc(dt)
-FIGHTER.chasePlayer or SHIP.moveStraight
+function FIGHTER:moveFunc(dt)
+    if self.chase == true then
+        self:chasePlayer(dt)
+    else
+        self:moveStraight(dt)
+    end
 end
 
 function FIGHTER:shootFunc()
 
+end
 
 function FIGHTER:new(rand)
     local icon   = love.graphics.newImage("assets/img/ships/fighter_" .. rand(1,2) ..".png")

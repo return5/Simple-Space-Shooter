@@ -79,7 +79,7 @@ local function makeEnemyShips()
     local rand = math.random
     local add  = table.insert
     local n    = rand(20,60)
-    n = 6
+    n = 20
     for i=1,n,1 do
         local i = rand(1,8)
         --if i < 3 then
