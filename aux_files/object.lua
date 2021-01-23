@@ -82,12 +82,8 @@ function OBJECT:isPlayerVisible()
     return false
 end
 
-function OBJECT:printObj()
-    love.graphics.draw(self.icon,self.x,self.y,self.move_angle,nil,nil,self.x_off,self.y_off)
-end
-
 function OBJECT:printFunc()
-    self:printObj()
+    love.graphics.draw(self.icon,self.x,self.y,self.move_angle,nil,nil,self.x_off,self.y_off)
 end
 
 function printObject(list,i,_)

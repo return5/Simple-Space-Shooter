@@ -11,7 +11,7 @@ setmetatable(ENEMY_SHIP,SHIP)
 
 
 function ENEMY_SHIP:printFunc()
-    self:printObj()
+    OBJECT.printFunc(self)
     self:printThruster()
 end
 
