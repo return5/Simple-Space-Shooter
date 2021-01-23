@@ -1,9 +1,9 @@
-## Introduction
-    Simple Space shooter is a simplistic 2D shooter set in space.  
-    The player controls a single ship. Player flys their ship through space shooting shoot and attempting to not be shot themself.
-    There are a variety of enemy types and models. With each new game the game objects are randomly selected.  
-    The number of Enemy ships and their attributes are all randomly assigned at the start of a new game.  
-    The Background of each new game is also randomized with each new game.  
+## Introduction  
+   Simple Space shooter is a simplistic 2D shooter set in space.  
+   The player controls a single ship. Player flys their ship through space shooting shoot and attempting to not be shot themself.
+   There are a variety of enemy types and models. With each new game the game objects are randomly selected.  
+   The number of Enemy ships and their attributes are all randomly assigned at the start of a new game.  
+   The Background of each new game is also randomized with each new game.  
 
 ## controls
 
