@@ -1,46 +1,23 @@
 --File conatins functions for creating and manipulating ship objects
 
-local Proj   = require("aux_files.projectile")
 local Thrust = require("aux_files.thruster")
 
-SHIP = { 
-            x = nil, y = nil,target_x = nil, target_y = nil,speed = nil,health = nil, max_health = nil,thruster = nil,
-            missile = nil,time_since_shot = nil, time_between_shots = nil,proj_speed = nil,shoot_func = nil,t_off = nil,
-            proj_icon = nil,move_func = nil,print_func = nil
-        }
+SHIP = { x = nil, y = nil,target_x = nil, target_y = nil,speed = nil,health = nil, max_health = nil,thruster = nil}
 
 SHIP.__index = SHIP
 setmetatable(SHIP,OBJECT)
-
-local PROJ_COLORS = {"blue","red","green","yellow"}
-
-
-function SHIP:shootSingle(list)
-    if love.timer.getTime() - self.time_since_shot > self.time_between_shots then
-        table.insert(list,PROJECTILE:new(self.x,self.y,self.target_angle,self.t_off,self.missile,self.proj_icon,self.proj_speed))
-        self.time_since_shot = love.timer.getTime()
-    end
-end
-
-function SHIP:shootCircle(list)
-    if love.timer.getTime() - self.time_since_shot > self.time_between_shots then
-        local add   = table.insert
-        local angle = self.target_angle
-        for i=1,12,1 do
-            angle = angle - 0.5235988
-            add(list,PROJECTILE:new(self.x,self.y,angle,self.t_off,self.missile,self.proj_icon,self.proj_speed))
-        end
-        self.time_since_shot = love.timer.getTime()
-    end
-end
 
 function SHIP:printThruster()
     if self.thruster ~= nil then
         self.thruster.x           = self.x
         self.thruster.y           = self.y
         self.thruster.move_angle  = self.move_angle
-        self.thruster:printObj()
+        self.thruster:printFunc()
     end
+end
+
+function SHIP:printFunc()
+    OBJECT.printFunc(self)
 end
 
 function SHIP:checkHealth()
@@ -58,7 +35,6 @@ end
 function SHIP:getRandomMoveAngle()
     return self.move_angle - 1.57079 * math.random() * 3.14159
 end
-
 
 --change angle of ship based on targeting location
 function SHIP:getNewTargetAngle()
@@ -84,8 +60,8 @@ function SHIP:update(list,i,dt)
     if self.health <= 0  then
         table.remove(list,i)
     else
-        self:move_func(dt) 
-        self:shoot_func(ENEMY_PROJ)
+        self:moveFunc(dt) 
+        self:shootFunc(ENEMY_PROJ)
     end
 end
 
@@ -98,21 +74,6 @@ end
 
 function getSpeed(rand)
     return rand(125,MAX_SPEED)
-end
-
-local function getProjectileIcon(rand,missile)
-    local color = PROJ_COLORS[rand(1,#PROJ_COLORS)]
-    local icon 
-    if missile == true then
-        icon = "/assets/img/weapons/missile_" .. color .. ".png"
-    else
-        icon = "/assets/img/weapons/laser_" .. color .. ".png"
-    end
-    return love.graphics.newImage(icon)
-end
-
-local function getMissileOrLaser(rand)
-    return rand(1,3) < 3
 end
 
 local function getHealth()
@@ -131,10 +92,7 @@ function SHIP:new(rand,icon)
     o.health             = getHealth()
     o.max_health         = o.health
     o.time_since_shot    = love.timer.getTime()
-    o.missile            = getMissileOrLaser(rand)
-    o.proj_icon          = getProjectileIcon(rand,o.missile)
     o.speed              = getSpeed(rand)
-    o.t_off              = getTOff(rand)
     return o
 end
 

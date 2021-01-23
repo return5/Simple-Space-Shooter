@@ -34,7 +34,7 @@ function makeBackground()
         local icon   = getIcon(rand)
         local bg_obj = OBJECT:new(x,y,angle,icon)
         add(BG_LIST,bg_obj)
-        bg_obj:printObj()
+        bg_obj:printFunc()
     end
     drawBorderToCanvas()
     love.graphics.setCanvas()

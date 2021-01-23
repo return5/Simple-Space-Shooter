@@ -36,7 +36,7 @@ function love.draw()
     love.graphics.draw(BG_CANVAS)
     iterateList(SHIP_LIST,printObject)
    -- iterateList(PLAYER_PROJ,printProj)
-   -- iterateList(ENEMY_PROJ,printProj)
+    iterateList(ENEMY_PROJ,printObject)
     PLAYER:printPlayer()
     love.graphics.pop()
     printUI()
@@ -79,16 +79,17 @@ local function makeEnemyShips()
     local rand = math.random
     local add  = table.insert
     local n    = rand(20,60)
+    n = 6
     for i=1,n,1 do
         local i = rand(1,8)
         --if i < 3 then
-            --add(SHIP_LIST,FIGHTER:new(rand))
+            add(SHIP_LIST,FIGHTER:new(rand))
       --  elseif i < 5 then
-            add(SHIP_LIST,STATIONARY:new(rand))
+           --add(SHIP_LIST,STATIONARY:new(rand))
       --  elseif i < 8 then
-           --add(SHIP_LIST,SATELLITE:new(rand))
+          -- add(SHIP_LIST,SATELLITE:new(rand))
        -- else
-            --  add(SHIP_LIST,UFO:new(rand))
+           -- add(SHIP_LIST,UFO:new(rand))
       --  end
     end
 end

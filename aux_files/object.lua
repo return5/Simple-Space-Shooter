@@ -1,5 +1,5 @@
 
-OBJECT = {x = nil, y = nil, x_off = nil, y_off = nil,icon = nil,move_angle = nil,move_func = nil}
+OBJECT = {x = nil, y = nil, x_off = nil, y_off = nil,icon = nil,move_angle = nil}
 OBJECT.__index = OBJECT
 
 
@@ -82,17 +82,17 @@ function OBJECT:isPlayerVisible()
     return false
 end
 
-function OBJECT:printObj()
+function OBJECT:printFunc()
     love.graphics.draw(self.icon,self.x,self.y,self.move_angle,nil,nil,self.x_off,self.y_off)
 end
 
 function printObject(list,i,_)
-    list[i]:print_func()
+    list[i]:printFunc()
     return false
 end
 
 function moveObj(list,i,dt)
-    list[i]:move_func(dt)
+    list[i]:moveFunc(dt)
     return false
 end
 

@@ -8,7 +8,7 @@ setmetatable(PLAYER_SHIP,SHIP)
 
 
 function PLAYER_SHIP:printPlayer()
-    self:printObj()
+    self:printFunc()
     if MOVE == true then
         self:printThruster()
     end

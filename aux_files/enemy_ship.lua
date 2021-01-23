@@ -1,15 +1,16 @@
 --File contains functions for delaing with Enemy ship objects
 --ENEMY_SHIPS are ships which can shoot at the player
 
-local Ship = require("aux_files.ship")
+local Ship   = require("aux_files.ship")
+local Weapon = require("aux_files.weapon")
 
 
-ENEMY_SHIP = {score = nil,time_since_seen = nil,shoot_if_player_notvis = nil,target_angle = nil}
+ENEMY_SHIP = {score = nil,time_since_seen = nil,shoot_if_player_notvis = nil,target_angle = nil,weapon = nil}
 ENEMY_SHIP.__index = ENEMY_SHIP
 setmetatable(ENEMY_SHIP,SHIP)
 
 
-function ENEMY_SHIP:printShip()
+function ENEMY_SHIP:printFunc()
     self:printObj()
     self:printThruster()
 end
@@ -22,7 +23,7 @@ function ENEMY_SHIP:targetPlayer()
         self.time_since  = love.timer.getTime()
         return self:getNewTargetAngle()
     end
-    return self.move_angle
+    return self.target_angle
 end
 
 local function getProjSpeed(rand,ship_speed)
@@ -33,14 +34,19 @@ local function getProjSpeed(rand,ship_speed)
     return speed
 end
 
+function ENEMY_SHIP:moveFunc(dt)
+    self.move_angle = self:targetPlayer()
+    if self:getNewXY(dt) == false then
+        self.move_angle = self:getNewRandomMoveAngle()
+    end
+end
+
 function ENEMY_SHIP:new(rand,icon)
     local o                  = setmetatable(SHIP:new(rand,icon),ENEMY_SHIP)
     o.time_between_shots     = 0.75 + rand() * 1.5
     o.time_since_seen        = o.time_since_shot
     o.proj_speed             = getProjSpeed(rand,o.speed)
     o.shoot_if_player_notvis = rand(1,3) < 3 
-    o.shoot_func             = SHIP.shootSingle
-    o.print_func             = ENEMY_SHIP.printShip
     o.target_angle           = o.move_angle
     return o
 end
