@@ -2,7 +2,7 @@
 
 local Proj = require("aux_files.projectile")
 
-WEAPON = {proj_speed = nil,proj_icon = nil,time_since_shot = nil,time_between_shots = nil,t_off = nil}
+WEAPON = {proj_speed = nil,proj_icon = nil,time_since_shot = nil,time_between_shots = nil,t_off = nil,target_angle = nil}
 WEAPON.__index = WEAPON
 
 CIRCLE_SHOT = {}
@@ -25,7 +25,7 @@ local PROJ_COLORS = {"blue","red","green","yellow"}
 
 function SINGLE_SHOT:shootFunc(ship,list) 
     if love.timer.getTime() - self.time_since_shot > self.time_between_shots then
-        table.insert(list,PROJECTILE:new(ship.x,ship.y,ship.target_angle,self.t_off,self.proj_icon,self.proj_speed))
+        table.insert(list,PROJECTILE:new(ship.x,ship.y,self.target_angle,self.t_off,self.proj_icon,self.proj_speed))
         self.time_since_shot = love.timer.getTime()
     end
 end
@@ -42,17 +42,24 @@ function CIRCLE_SHOT:shootFunc(ship,list)
     end
 end
 
+function MULTI_SHOT:shootFunc(ship,list) 
+
+end
+
 function CIRCLE_SHOT:new(rand,ship_speed)
+    io.write("circle\n")
     local o = setmetatable(WEAPON:new(rand,ship_speed),CIRCLE_SHOT)
     return o
 end
 
 function SINGLE_SHOT:new(rand,ship_speed)
+    io.write("single\n")
     local o = setmetatable(WEAPON:new(rand,ship_speed),SINGLE_SHOT)
     return o
 end
 
 function MULTI_SHOT:new(rand,ship_speed)
+    io.write("multi\n")
     local o = setmetatable(WEAPON:new(rand,ship_speed),MULTI_SHOT)
     return o
 end

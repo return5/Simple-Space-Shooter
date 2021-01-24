@@ -29,7 +29,6 @@ end
 
 function ENEMY_SHIP:moveFunc(dt)
     if self:moveStraight(dt )== false then
-        self.target_angle = self.move_angle
         return false
     end
     return true
@@ -37,6 +36,7 @@ end
 
 function ENEMY_SHIP:shootFunc()
     if self.shoot_if_player_notvis == true or self:isPlayerVisible() == true then
+        self.weapon.target_angle = self.move_angle
         self.weapon:shootFunc(self,ENEMY_PROJ)
     end
 end
