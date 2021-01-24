@@ -49,6 +49,10 @@ function SHIP:moveStraight(dt)
     return true
 end
 
+function SHIP:moveFunc(dt) 
+    self:moveStraight(dt)
+end
+
 function SHIP:update(list,i,dt)
     local j = iterateList(PLAYER_PROJ,checkforCollision,self)
     if j ~= -1 then

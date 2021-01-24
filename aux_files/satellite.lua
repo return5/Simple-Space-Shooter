@@ -17,8 +17,7 @@ end
 function SATELLITE:new(rand)
     local icon   = getSatelliteIcon(rand)
     local o      = setmetatable(SHIP:new(rand,icon),SATELLITE)
-    o.move_func  = SHIP.moveStraightLine
-    o.shoot_func = SATELLITE.shootFunc
+    o.score      = 5
     return o
 end
 
