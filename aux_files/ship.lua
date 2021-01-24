@@ -2,7 +2,7 @@
 
 local Thrust = require("aux_files.thruster")
 
-SHIP = { x = nil, y = nil,target_x = nil, target_y = nil,speed = nil,health = nil, max_health = nil,thruster = nil}
+SHIP = { x = nil, y = nil,speed = nil,health = nil, max_health = nil,thruster = nil}
 
 SHIP.__index = SHIP
 setmetatable(SHIP,OBJECT)
@@ -44,7 +44,9 @@ end
 function SHIP:moveStraight(dt)
     if self:moveStraightLine(dt) == false then
         self.move_angle = self:getNewRandomMoveAngle()
+        return false
     end
+    return true
 end
 
 function SHIP:update(list,i,dt)

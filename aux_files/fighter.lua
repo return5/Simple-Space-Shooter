@@ -16,7 +16,7 @@ function FIGHTER:moveFunc(dt)
     if self.chase == true then
         self:chasePlayer(dt)
     end
-        self:moveStraight(dt)
+        ENEMY_SHIP.moveFunc(self,dt)
 end
 
 function FIGHTER:new(rand)

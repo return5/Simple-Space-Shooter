@@ -26,18 +26,13 @@ function ENEMY_SHIP:targetPlayer()
     return self.target_angle
 end
 
-local function getProjSpeed(rand,ship_speed)
-    local speed =  (.5 + rand() * .25) * PLAYER.speed
-    if speed < ship_speed then
-        speed = ship_speed * 1.5
-    end
-    return speed
-end
 
 function ENEMY_SHIP:moveFunc(dt)
-    if self:getNewXY(dt) == false then
-        self.move_angle = self:getNewRandomMoveAngle()
+    if self:moveStraight(dt )== false then
+        self.target_angle = self.move_angle
+        return false
     end
+    return true
 end
 
 function ENEMY_SHIP:shootFunc()
@@ -48,9 +43,7 @@ end
 
 function ENEMY_SHIP:new(rand,icon)
     local o                  = setmetatable(SHIP:new(rand,icon),ENEMY_SHIP)
-    o.time_between_shots     = 0.75 + rand() * 1.5
     o.time_since_seen        = o.time_since_shot
-    o.proj_speed             = getProjSpeed(rand,o.speed)
     o.shoot_if_player_notvis = rand(1,3) < 3 
     o.target_angle           = o.move_angle
     return o
