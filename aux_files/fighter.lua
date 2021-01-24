@@ -22,7 +22,7 @@ end
 function FIGHTER:new(rand)
     local icon   = love.graphics.newImage("assets/img/ships/fighter_" .. rand(1,2) ..".png")
     local o      = setmetatable(ENEMY_SHIP:new(rand,icon),FIGHTER)
-    o.chase      = false--rand(1,3) < 3  
+    o.chase      = rand(1,3) < 3  
     o.score      = chase == true and 20 or 10
     o.thruster   = THRUSTER:new(o.x,o.y,o.move_angle,rand)
     o.speed      = rand(55,MAX_SPEED - 90)

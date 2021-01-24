@@ -58,7 +58,6 @@ function PLAYER_SHIP:makePlayer()
     o.thruster           = THRUSTER:new(o.x,o.y,o.move_angle,rand) 
     o.target_angle       = o.move_angle
     --o.sound          = getSound(moveable) 
-   -- o.shoot_func     = getShootFunc(moveable,chase)
     return o
 end
 

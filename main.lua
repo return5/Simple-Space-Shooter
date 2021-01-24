@@ -83,7 +83,7 @@ local function makeEnemyShips()
     for i=1,n,1 do
         local i = rand(1,8)
         --if i < 3 then
-            add(SHIP_LIST,FIGHTER:new(rand))
+            --add(SHIP_LIST,FIGHTER:new(rand))
       --  elseif i < 5 then
            --add(SHIP_LIST,STATIONARY:new(rand))
       --  elseif i < 8 then

@@ -44,7 +44,7 @@ end
 function ENEMY_SHIP:new(rand,icon)
     local o                  = setmetatable(SHIP:new(rand,icon),ENEMY_SHIP)
     o.time_since_seen        = o.time_since_shot
-    o.shoot_if_player_notvis = true --rand(1,3) < 3 
+    o.shoot_if_player_notvis = rand(1,3) < 3 
     o.target_angle           = o.move_angle
     return o
 end
