@@ -40,6 +40,12 @@ function ENEMY_SHIP:moveFunc(dt)
     end
 end
 
+function ENEMY_SHIP:shootFunc()
+    if self.shoot_if_player_novis == true or self:isPlayerVisible() == true then
+        self.weapon:shootFunc(self,ENEMY_PROJ)
+    end
+end
+
 function ENEMY_SHIP:new(rand,icon)
     local o                  = setmetatable(SHIP:new(rand,icon),ENEMY_SHIP)
     o.time_between_shots     = 0.75 + rand() * 1.5

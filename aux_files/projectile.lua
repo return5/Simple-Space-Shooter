@@ -1,7 +1,7 @@
 local Obj  = require("aux_files.object")
 
 
-PROJECTILE = {travel_offscreen = nil}
+PROJECTILE = {travel_offscreen = nil, speed = nil, icon = nil}
 PROJECTILE.__index = PROJECTILE
 setmetatable(PROJECTILE,OBJECT)
 
@@ -25,11 +25,12 @@ function updateAllProjectiles()
     iterateList(PROJ_LIST,upateProjectile,nil)
 end
 
-function PROJECTILE:new(start_x,start_y,angle,t_off,missle,icon,speed)
+function PROJECTILE:new(start_x,start_y,angle,t_off,icon,speed)
     local o           = setmetatable(OBJECT:new(start_x,start_y,angle,icon),PROJECTILE)
     o.trave_offscreen = t_off
     o.move_func       = OBJECT.moveStraightLine
     o.speed           = speed
+    o.icon            = icon
     return o
 end
 
