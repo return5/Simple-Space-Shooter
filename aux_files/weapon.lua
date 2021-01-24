@@ -94,7 +94,7 @@ function WEAPON:new(rand,ship_speed)
     o.proj_icon          = getProjIcon(rand,missile)
     o.t_off              = rand(1,3) < 2
     o.time_since_shot    = 0
-    o.time_between_shots = 0.75 + rand() * 1.5
+    o.time_between_shots = 0.90 + rand() * 1.5
     o.proj_speed         = getProjSpeed(rand,ship_speed)
     return o
 end

@@ -16,26 +16,33 @@ local function getStationaryIcon(s_type,rand)
     return love.graphics.newImage(icon)
 end
 
-local function getStationaryShootFunc(s_type,rand)
-    local func
+local function getStationaryWeapon(rand,s_type)
     if s_type == "Rocket" then
-        func = SHIP.shootSingle
+        return SINGLE_SHOT:new(rand,0)
     else
-        func = rand(1,3) < 3 and SHIP.shootSingle or SHIP.shootCircle
+        local n = rand(0,8)
+        if n < 4 then
+            return SINGLE_SHOT:new(rand,0)
+        elseif n < 6 then
+            return MULTI_SHOT:new(rand,0)
+        else
+            return CIRCLE_SHOT:new(rand,0)
+        end
     end
-    return func
 end
+
 
 function STATIONARY:moveFunc(dt)
     self.move_angle = self:targetPlayer()
 end
+
 
 function STATIONARY:new(rand)
     local s_type = getStationaryType(rand) 
     local icon   = getStationaryIcon(s_type,rand) 
     local o      = setmetatable(ENEMY_SHIP:new(rand,icon),STATIONARY)
     o.move_func  = STATIONARY.moveFunc
-    o.shootFunc  = getStationaryShootFunc(s_type,rand)
+    o.weapon     = getStationaryWeapon(rand,s_type)
     return o
 end
 
