@@ -37,11 +37,23 @@ local function getFighterWeapon(rand,chase,speed)
 
 end
 
+local function getFighterIcon(rand,chase)
+    local icon
+    if chase == true then
+        icon = "/assets/img/ships/fighter_" .. rand(1,2) .. ".png"
+    else
+        icon = "/assets/img/ships/rocket.png"
+    end
+    return love.graphics.newImage(icon)
+end
+
+
 function FIGHTER:new(rand)
-    local icon   = love.graphics.newImage("assets/img/ships/fighter_" .. rand(1,2) ..".png")
+    local chase  = rand(1,3) < 3  
+    local icon   = getFighterIcon(rand,chase) 
     local o      = setmetatable(ENEMY_SHIP:new(rand,icon),FIGHTER)
-    o.chase      = rand(1,3) < 3  
     o.score      = chase == true and 20 or 10
+    o.chase      = chase
     o.thruster   = THRUSTER:new(o.x,o.y,o.move_angle,rand)
     o.speed      = rand(55,MAX_SPEED - 90)
     o.weapon     = getFighterWeapon(rand,o.chase,o.speed) 

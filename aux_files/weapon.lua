@@ -47,19 +47,16 @@ function MULTI_SHOT:shootFunc(ship,list)
 end
 
 function CIRCLE_SHOT:new(rand,ship_speed)
-    io.write("circle\n")
     local o = setmetatable(WEAPON:new(rand,ship_speed),CIRCLE_SHOT)
     return o
 end
 
 function SINGLE_SHOT:new(rand,ship_speed)
-    io.write("single\n")
     local o = setmetatable(WEAPON:new(rand,ship_speed),SINGLE_SHOT)
     return o
 end
 
 function MULTI_SHOT:new(rand,ship_speed)
-    io.write("multi\n")
     local o = setmetatable(WEAPON:new(rand,ship_speed),MULTI_SHOT)
     return o
 end
