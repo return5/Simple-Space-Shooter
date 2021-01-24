@@ -36,7 +36,7 @@ function ENEMY_SHIP:moveFunc(dt)
 end
 
 function ENEMY_SHIP:shootFunc()
-    if self.shoot_if_player_novis == true or self:isPlayerVisible() == true then
+    if self.shoot_if_player_notvis == true or self:isPlayerVisible() == true then
         self.weapon:shootFunc(self,ENEMY_PROJ)
     end
 end
@@ -44,7 +44,7 @@ end
 function ENEMY_SHIP:new(rand,icon)
     local o                  = setmetatable(SHIP:new(rand,icon),ENEMY_SHIP)
     o.time_since_seen        = o.time_since_shot
-    o.shoot_if_player_notvis = rand(1,3) < 3 
+    o.shoot_if_player_notvis = true --rand(1,3) < 3 
     o.target_angle           = o.move_angle
     return o
 end
