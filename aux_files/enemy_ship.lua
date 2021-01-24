@@ -35,7 +35,6 @@ local function getProjSpeed(rand,ship_speed)
 end
 
 function ENEMY_SHIP:moveFunc(dt)
-    self.move_angle = self:targetPlayer()
     if self:getNewXY(dt) == false then
         self.move_angle = self:getNewRandomMoveAngle()
     end
