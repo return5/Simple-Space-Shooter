@@ -87,9 +87,9 @@ local function makeEnemyShips()
       --  elseif i < 5 then
           -- add(SHIP_LIST,STATIONARY:new(rand))
       --  elseif i < 8 then
-         add(SHIP_LIST,SATELLITE:new(rand))
+         --add(SHIP_LIST,SATELLITE:new(rand))
        -- else
-           -- add(SHIP_LIST,UFO:new(rand))
+           add(SHIP_LIST,UFO:new(rand))
       --  end
     end
 end
