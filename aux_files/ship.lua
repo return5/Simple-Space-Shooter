@@ -78,10 +78,6 @@ function getSpeed(rand)
     return rand(125,MAX_SPEED)
 end
 
-local function getHealth()
-    return 1
-end
-
 local function getTOff(rand)
     return rand(0,5) < 3 
 end
@@ -91,7 +87,7 @@ function SHIP:new(rand,icon)
     local x,y            = makeXY(SHIP_LIST,rand)
     local angle          = getAngle(rand)
     local o              = setmetatable(OBJECT:new(x,y,angle,icon),SHIP)
-    o.health             = getHealth()
+    o.health             = 1
     o.max_health         = o.health
     o.time_since_shot    = love.timer.getTime()
     o.speed              = getSpeed(rand)
