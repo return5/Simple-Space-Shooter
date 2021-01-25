@@ -28,12 +28,13 @@ local function getFighterWeapon(rand,speed)
 end
 
 function FIGHTER:new(rand)
-    local icon   = "/assets/img/ships/fighter_" .. rand(1,2) .. ".png"
+    local icon   = love.graphics.newImage("/assets/img/ships/fighter_" .. rand(1,2) .. ".png")
     local o      = setmetatable(ENEMY_SHIP:new(rand,icon),FIGHTER)
     o.score      = 20 
     o.thruster   = THRUSTER:new(o.x,o.y,o.move_angle,rand)
     o.speed      = rand(55,MAX_SPEED - 90)
     o.weapon     = getFighterWeapon(rand,o.speed) 
+    o.weapon.proj_speed = PLAYER.speed * (0.75 * rand() + 0.50)
     return o
 end
 

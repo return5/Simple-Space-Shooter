@@ -83,20 +83,18 @@ local function makeEnemyShips()
     local n    = rand(20,60)
     n = 20
     for i=1,n,1 do
-        local i = rand(1,8)
-        --if i < 3 then
-           -- add(SHIP_LIST,FIGHTER:new(rand))
-      --  elseif i < 5 then
-          -- add(SHIP_LIST,STATIONARY:new(rand))
-      --  elseif i < 8 then
-         --add(SHIP_LIST,SATELLITE:new(rand))
-       -- else
-          -- add(SHIP_LIST,UFO:new(rand))
-           --add(SHIP_LIST,STATIONARY_ROCKET:new(rand))
-          -- add(SHIP_LIST,MOVING_ROCKET:new(rand))
-        
-           add(SHIP_LIST,STATION:new(rand))
-      --  end
+        local i = rand(0.12)
+        if i < 4 then
+            add(SHIP_LIST,FIGHTER:new(rand))
+        elseif i < 6 then
+            add(SHIP_LIST,STATION:new(rand))
+        elseif i < 8 then
+            add(SHIP_LIST,STATIONARY_ROCKET:new(rand))
+         elseif i < 10 then
+            add(SHIP_LIST,MOVING_ROCKET:new(rand))
+        else
+            add(SHIP_LIST,UFO:new(rand))
+        end
     end
 end
 
