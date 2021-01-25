@@ -22,7 +22,8 @@ local Ufo         = require("aux_files.ufo")
 local Player_ship = require("aux_files.player_ship")
 local Background  = require("aux_files.background")
 local Fighter     = require("aux_files.fighter")
-local Stationary  = require("aux_files.stationary")
+local S_Rocket    = require("aux_files.stationary_rocket")
+local M_Rocket    = require("aux_files.moving_rocket")
 local Satellite   = require("aux_files.satellite")
 
 local function printUI()
@@ -89,7 +90,9 @@ local function makeEnemyShips()
       --  elseif i < 8 then
          --add(SHIP_LIST,SATELLITE:new(rand))
        -- else
-           add(SHIP_LIST,UFO:new(rand))
+          -- add(SHIP_LIST,UFO:new(rand))
+           add(SHIP_LIST,STATIONARY_ROCKET:new(rand))
+           add(SHIP_LIST,MOVING_ROCKET:new(rand))
       --  end
     end
 end

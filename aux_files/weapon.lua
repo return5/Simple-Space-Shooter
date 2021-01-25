@@ -78,11 +78,11 @@ local function getProjIcon(rand,missile)
 end
 
 local function getProjSpeed(rand,ship_speed)
-    local speed = (- .25 + rand() * 1) +  PLAYER.speed
-    if speed < ship_speed then
-        speed = ship_speed * (1.25 + rand() * 0.75)
+    if ship_speed > 0  then
+        return ship_speed + (0.75 + rand() * 1.35)
+    else
+        return (0.75 + rand() * 1.25) * PLAYER.speed
     end
-    return speed
 end
 
 function WEAPON:new(rand,ship_speed)

@@ -3,60 +3,37 @@
 
 local Enemy_ship = require("aux_files.enemy_ship")
 
-FIGHTER = {chase = nil}
+FIGHTER = {}
 FIGHTER.__index = FIGHTER
 setmetatable(FIGHTER,ENEMY_SHIP)
 
---if the fighter can chase the player then do so if player is visible, otherwise just move straight
 function FIGHTER:chasePlayer()
-        self.move_angle  = self:targetPlayer()
+    self.move_angle  = self:targetPlayer()
 end
 
 function FIGHTER:moveFunc(dt)
-    if self.chase == true then
-        self:chasePlayer(dt)
-    end
-        ENEMY_SHIP.moveFunc(self,dt)
+    self:chasePlayer(dt)
+    ENEMY_SHIP.moveFunc(self,dt)
 end
 
-local function getFighterWeapon(rand,chase,speed)
-    local chances 
-    if chase == true then
-        chances = {6,8}
-    else
-        chances = {4,8}
-    end
+local function getFighterWeapon(rand,speed)
     local n = rand(1,10)
-    if n < chances[1] then
+    if n < 6 then
         return SINGLE_SHOT:new(rand,speed)
-    elseif n < chances[2] then
+    elseif n < 9 then
         return CIRCLE_SHOT:new(rand,speed)
     else
         return MULTI_SHOT:new(rand,speed)
     end
-
 end
-
-local function getFighterIcon(rand,chase)
-    local icon
-    if chase == true then
-        icon = "/assets/img/ships/fighter_" .. rand(1,2) .. ".png"
-    else
-        icon = "/assets/img/ships/rocket.png"
-    end
-    return love.graphics.newImage(icon)
-end
-
 
 function FIGHTER:new(rand)
-    local chase  = rand(1,3) < 3  
-    local icon   = getFighterIcon(rand,chase) 
+    local icon   = "/assets/img/ships/fighter_" .. rand(1,2) .. ".png"
     local o      = setmetatable(ENEMY_SHIP:new(rand,icon),FIGHTER)
-    o.score      = chase == true and 20 or 10
-    o.chase      = chase
+    o.score      = 20 
     o.thruster   = THRUSTER:new(o.x,o.y,o.move_angle,rand)
     o.speed      = rand(55,MAX_SPEED - 90)
-    o.weapon     = getFighterWeapon(rand,o.chase,o.speed) 
+    o.weapon     = getFighterWeapon(rand,o.speed) 
     return o
 end
 
