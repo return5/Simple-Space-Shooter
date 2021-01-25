@@ -79,7 +79,7 @@ end
 
 local function getProjSpeed(rand,ship_speed)
     if ship_speed > 0  then
-        return ship_speed + (0.75 + rand() * 1.35)
+        return ship_speed * (1.25 + rand() * 0.75)
     else
         return (0.75 + rand() * 1.25) * PLAYER.speed
     end

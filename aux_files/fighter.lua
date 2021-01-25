@@ -30,7 +30,7 @@ end
 local function getFighterProjSpeed(rand,ship_speed)
     local speed = PLAYER.speed * (0.75 * rand() + 0.50)
     if speed <= ship_speed + 0.25 then
-        speed = ship_speed * (0.75 * rand + 0.50)
+        speed = ship_speed * (0.75 + rand() * 0.50)
     end
     return speed
 end

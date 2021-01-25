@@ -115,6 +115,7 @@ function love.load()
     ENEMY_PROJ    = {}  --list of projectiles shot by enemy
     MAX_SPEED     = 300
     PLAYER        = PLAYER_SHIP:makePlayer()  
+    MAX_SPEED     = PLAYER.speed  --ensure that no enemy ship can travel faster than player ship
     makeEnemyShips()  
     PLAY          = true    --should game keep going
     MOVE          = false   --is player moving
