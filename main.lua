@@ -24,6 +24,7 @@ local Background  = require("aux_files.background")
 local Fighter     = require("aux_files.fighter")
 local S_Rocket    = require("aux_files.stationary_rocket")
 local M_Rocket    = require("aux_files.moving_rocket")
+local Station     = require("aux_files.station")
 local Satellite   = require("aux_files.satellite")
 
 local function printUI()
@@ -91,8 +92,10 @@ local function makeEnemyShips()
          --add(SHIP_LIST,SATELLITE:new(rand))
        -- else
           -- add(SHIP_LIST,UFO:new(rand))
-           add(SHIP_LIST,STATIONARY_ROCKET:new(rand))
-           add(SHIP_LIST,MOVING_ROCKET:new(rand))
+           --add(SHIP_LIST,STATIONARY_ROCKET:new(rand))
+          -- add(SHIP_LIST,MOVING_ROCKET:new(rand))
+        
+           add(SHIP_LIST,STATION:new(rand))
       --  end
     end
 end
