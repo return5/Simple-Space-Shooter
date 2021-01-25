@@ -37,7 +37,7 @@ function love.draw()
     love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
     love.graphics.draw(BG_CANVAS)
     iterateList(SHIP_LIST,printObject)
-   -- iterateList(PLAYER_PROJ,printProj)
+    iterateList(PLAYER_PROJ,printObject)
     iterateList(ENEMY_PROJ,printObject)
     PLAYER:printPlayer()
     love.graphics.pop()
@@ -69,9 +69,9 @@ function love.update(dt)
         MOVE = false
     end
     if love.keyboard.isScancodeDown("a") then  --if player presses 'a' key
-        PLAYER.move_angle = PLAYER.move_angle - 0.174532 --rotate players ship by 25 degrees
+        PLAYER.move_angle = PLAYER.move_angle - 0.08726646 --rotate players ship by 5 degrees
     elseif love.keyboard.isScancodeDown('d') then
-        PLAYER.move_angle = PLAYER.move_angle + 0.174532--0.43633
+        PLAYER.move_angle = PLAYER.move_angle + 0.08726646
     end
     PLAYER:updatePlayer(dt)
 end

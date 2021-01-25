@@ -27,7 +27,8 @@ function PLAYER_SHIP:shootFunc()
     else
         self:playerTargetMouse()
     end
-    self:shoot_func(PLAYER_PROJ)
+    self.weapon.target_angle = self.target_angle
+    self.weapon:shootFunc(self,PLAYER_PROJ)
 end
 
 function PLAYER_SHIP:updatePlayer(dt)
@@ -54,11 +55,13 @@ function PLAYER_SHIP:makePlayer()
     o.shoot_func         = shootSingle
     o.time_between_shots = 0.5
     o.speed              = rand(175,MAX_SPEED)
-    o.proj_speed         = o.speed * 1.5
     o.target_mouse       = false
     o.thruster           = THRUSTER:new(o.x,o.y,o.move_angle,rand) 
     o.target_angle       = o.move_angle
     o.health             = 5
+    o.weapon             = SINGLE_SHOT:new(rand,o.speed)
+    o.weapon.time_between_shots = 0.4 + rand() * 0.2 
+    o.weapon.proj_speed         = o.speed * (1.75 + rand() * 0.25) 
     --o.sound          = getSound(moveable) 
     return o
 end

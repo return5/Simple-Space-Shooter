@@ -1,6 +1,7 @@
 --File conatins functions for creating and manipulating ship objects
 
 local Thrust = require("aux_files.thruster")
+local Obj    = require("aux_files.object")
 
 SHIP = { x = nil, y = nil,speed = nil,health = nil, max_health = nil,thruster = nil}
 
@@ -14,10 +15,6 @@ function SHIP:printThruster()
         self.thruster.move_angle  = self.move_angle
         self.thruster:printFunc()
     end
-end
-
-function SHIP:printFunc()
-    OBJECT.printFunc(self)
 end
 
 function SHIP:checkHealth()
@@ -54,12 +51,13 @@ function SHIP:moveFunc(dt)
 end
 
 function SHIP:update(list,i,dt)
-    local j = iterateList(PLAYER_PROJ,checkforCollision,self)
+    local j = iterateList(PLAYER_PROJ,checkForCollision,self)
     if j ~= -1 then
         table.remove(PLAYER_PROJ,j)
-        self:changeHEalth(-1)
+        self:changeHealth(-1)
     end
     if self.health <= 0  then
+        PLAYER_SCORE = PLAYER_SCORE + self.score
         table.remove(list,i)
     else
         self:moveFunc(dt) 

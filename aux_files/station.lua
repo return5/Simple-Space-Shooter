@@ -25,7 +25,7 @@ function STATION:new(rand)
     local icon = getStationIcon(rand)
     local o    = setmetatable(STATIONARY:new(rand,icon),STATION)
     o.health   = 3
-    o.score    = 20
+    o.score    = 25
     o.weapon   = getStationWeapon(rand)
     return o
 end

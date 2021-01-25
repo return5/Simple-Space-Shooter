@@ -27,7 +27,7 @@ function UFO:new(rand)
     o.shoot_target_y    = rand(1,GAME_H)
     o.weapon            = rand(1,4) < 4 and SINGLE_SHOT:new(rand,o.speed) or MULTI_SHOT:new(rand,o.speed)     
     o.weapon.proj_speed = o.speed *( 1.2 * rand() + 0.7)
-    o.score             = 35
+    o.score             = 30
     return o
 end
 
