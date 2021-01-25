@@ -80,18 +80,19 @@ end
 local function makeEnemyShips()
     local rand = math.random
     local add  = table.insert
-    local n    = rand(20,60)
-    n = 20
+    local n    = rand(20,40)
     for i=1,n,1 do
-        local i = rand(0.12)
-        if i < 4 then
+        local j = rand(0,13)
+        if j < 3 then
             add(SHIP_LIST,FIGHTER:new(rand))
-        elseif i < 6 then
+        elseif j < 5 then
             add(SHIP_LIST,STATION:new(rand))
-        elseif i < 8 then
+        elseif j < 7 then
             add(SHIP_LIST,STATIONARY_ROCKET:new(rand))
-         elseif i < 10 then
+         elseif j < 9 then
             add(SHIP_LIST,MOVING_ROCKET:new(rand))
+        elseif j < 11 then
+            add(SHIP_LIST,SATELLITE:new(rand))
         else
             add(SHIP_LIST,UFO:new(rand))
         end
@@ -112,9 +113,8 @@ function love.load()
     SHIP_LIST     = {}  --list of all enemy ships
     PLAYER_PROJ   = {}  --list of projectiles shot by player
     ENEMY_PROJ    = {}  --list of projectiles shot by enemy
-    MAX_SPEED     = 275
+    MAX_SPEED     = 300
     PLAYER        = PLAYER_SHIP:makePlayer()  
-    MAX_SPEED     = PLAYER.speed
     makeEnemyShips()  
     PLAY          = true    --should game keep going
     MOVE          = false   --is player moving

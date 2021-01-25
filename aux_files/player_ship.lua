@@ -53,6 +53,7 @@ function PLAYER_SHIP:makePlayer()
     local o              = setmetatable(SHIP:new(rand,icon),PLAYER_SHIP)
     o.shoot_func         = shootSingle
     o.time_between_shots = 0.5
+    o.speed              = rand(175,MAX_SPEED)
     o.proj_speed         = o.speed * 1.5
     o.target_mouse       = false
     o.thruster           = THRUSTER:new(o.x,o.y,o.move_angle,rand) 
