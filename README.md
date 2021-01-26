@@ -20,7 +20,6 @@
 
   ![screenshot3](/asset/img/screenshots/screenshot_3.png)  
 
-
 ## To Do 
 - [ ] add gameover screen  
     - [ ] gameover happens when either player health drops to 0 or all enemies are destroyed  
