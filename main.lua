@@ -30,6 +30,7 @@ local Satellite   = require("aux_files.satellite")
 local function printUI()
     love.graphics.print("Player health: " .. PLAYER.health,1,1)
     love.graphics.print("Player Score: " .. PLAYER_SCORE,1,15)
+    love.graphics.print("enemies left: " .. #SHIP_LIST,1,30)
 end
 
 function love.draw()

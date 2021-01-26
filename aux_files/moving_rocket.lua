@@ -13,5 +13,6 @@ function MOVING_ROCKET:new(rand)
     o.weapon   = SINGLE_SHOT:new(rand,o.speed)
     o.health   = 1
     o.score    = 5
+    o.thruster = THRUSTER:new(o.x,o.y,o.move_angle,rand)
     return o
 end
