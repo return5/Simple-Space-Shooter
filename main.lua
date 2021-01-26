@@ -74,7 +74,7 @@ function love.update(dt)
     iterateList(SHIP_LIST,updateObject,dt)    --loop over all enemy ships and update each one
     iterateList(PLAYER_PROJ,updateObject,dt) --loop over all player projectiles and update each one
     iterateList(ENEMY_PROJ,updateObject,dt)  --loop over each enemy projectile and update each one
-    if PLAYER.health <= 0 then
+    if PLAYER.health <= 0 or #SHIP_LIST <=0  then
         GAME_OVER = true
     else
         if love.keyboard.isScancodeDown('w') then    -- if player is pressing the 'w' key
