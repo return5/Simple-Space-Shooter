@@ -26,6 +26,7 @@ local S_Rocket    = require("aux_files.stationary_rocket")
 local M_Rocket    = require("aux_files.moving_rocket")
 local Station     = require("aux_files.station")
 local Satellite   = require("aux_files.satellite")
+local GAME_OVER   = false
 
 local function printUI()
     love.graphics.print("Player health: " .. PLAYER.health,1,1)
@@ -33,16 +34,25 @@ local function printUI()
     love.graphics.print("enemies left: " .. #SHIP_LIST,1,30)
 end
 
+local function printGameOver()
+
+end
+
 function love.draw()
-    love.graphics.push()
-    love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
-    love.graphics.draw(BG_CANVAS)
-    iterateList(SHIP_LIST,printObject)
-    iterateList(PLAYER_PROJ,printObject)
-    iterateList(ENEMY_PROJ,printObject)
-    PLAYER:printPlayer()
-    love.graphics.pop()
-    printUI()
+    if GAME_OVER == false then
+        love.graphics.push()
+        love.graphics.translate(-PLAYER.x + HALF_W, -PLAYER.y + HALF_H)
+        love.graphics.draw(BG_CANVAS)
+        iterateList(SHIP_LIST,printObject)
+        iterateList(PLAYER_PROJ,printObject)
+        iterateList(ENEMY_PROJ,printObject)
+        PLAYER:printPlayer()
+        love.graphics.pop()
+        printUI()
+    else
+        printGameOver();
+    end
+
 end
 
 
@@ -64,17 +74,21 @@ function love.update(dt)
     iterateList(SHIP_LIST,updateObject,dt)    --loop over all enemy ships and update each one
     iterateList(PLAYER_PROJ,updateObject,dt) --loop over all player projectiles and update each one
     iterateList(ENEMY_PROJ,updateObject,dt)  --loop over each enemy projectile and update each one
-    if love.keyboard.isScancodeDown('w') then    -- if player is pressing the 'w' key
-        MOVE = true
+    if PLAYER.health <= 0 then
+        GAME_OVER = true
     else
-        MOVE = false
+        if love.keyboard.isScancodeDown('w') then    -- if player is pressing the 'w' key
+            MOVE = true
+        else
+            MOVE = false
+        end
+        if love.keyboard.isScancodeDown("a") then  --if player presses 'a' key
+            PLAYER.move_angle = PLAYER.move_angle - 0.08726646 --rotate players ship by 5 degrees
+        elseif love.keyboard.isScancodeDown('d') then
+            PLAYER.move_angle = PLAYER.move_angle + 0.08726646
+        end
+        PLAYER:updatePlayer(dt)
     end
-    if love.keyboard.isScancodeDown("a") then  --if player presses 'a' key
-        PLAYER.move_angle = PLAYER.move_angle - 0.08726646 --rotate players ship by 5 degrees
-    elseif love.keyboard.isScancodeDown('d') then
-        PLAYER.move_angle = PLAYER.move_angle + 0.08726646
-    end
-    PLAYER:updatePlayer(dt)
 end
 
 --make list of enemy ships

@@ -23,7 +23,7 @@
 ## To Do 
 - [ ] add gameover screen  
     - [ ] gameover happens when either player health drops to 0 or all enemies are destroyed  
-- [ ] add counter to show # of enemies left  
+- [x] add counter to show # of enemies left  
 - [ ] when only a few enemies left add arrow to screen pointing to nearest enemy  
 - [ ] add sounds  
 - [ ] add background music  
