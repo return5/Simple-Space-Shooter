@@ -69,7 +69,7 @@ function PLAYER_SHIP:makePlayer()
     o.target_angle       = o.move_angle
     o.health             = 5
     o.max_health         = o.health
-    o.weapon             = MULTI_SHOT:new(rand,o.speed)
+    o.weapon             = SINGLE_SHOT:new(rand,o.speed)
     o.weapon.time_between_shots = 0.4 + rand() * 0.2 
     o.weapon.proj_speed         = o.speed * (1.75 + rand() * 0.25) 
     --o.sound          = getSound(moveable) 
