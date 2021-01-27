@@ -50,7 +50,14 @@ function CIRCLE_SHOT:shootFunc(ship,list)
 end
 
 function MULTI_SHOT:shootFunc(ship,list) 
-    --self:resetSound()
+    if love.timer.getTime() - self.time_since_shot > self.time_between_shots then
+        local add = table.insert
+        add(list,PROJECTILE:new(ship.x,ship.y,self.target_angle,self.t_off,self.proj_icon,self.proj_speed))
+        add(list,PROJECTILE:new(ship.x,ship.y,self.target_angle - 0.08726646,self.t_off,self.proj_icon,self.proj_speed))
+        add(list,PROJECTILE:new(ship.x,ship.y,self.target_angle + 0.08726646,self.t_off,self.proj_icon,self.proj_speed))
+        self:resetSound()
+        self.time_since_shot = love.timer.getTime()
+    end
 
 end
 
