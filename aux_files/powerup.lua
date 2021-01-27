@@ -1,71 +1,67 @@
 --File contains functions for power up objects
 
-local Obj = require("aux_files.object")
+local Weapon = require("aux_files.weapon")
 
-POWER_UP = {power_func = nil, sound = nil}
-POWER_UP.__index = POWER_UP
-setmetatable(POWER_UP,OBJECT)
+POWERUP = {func = nil, sound = nil}
+POWERUP.__index = POWERUP
+setmetatable(POWERUP,OBJECT)
 
-local POWERUP_TYPES = {"Restore-Health","Temp-Health","Multi-Shot","Speed","Circle-Shot","Mouse-Target"}
-local POWERUP_FUNCS = {POWERUP.restoreHealth,POWERUP.tempHealth,POWERUP.multiShot,POWERUP.speed,POWERUP.circleShot,POWERUP.mouseTarget}
-local POWERUP_icons = {"restorehealth.png","temphealth.png","multishot.png","speed.png","circleshot.png","mousetarget.png"}
+local POWERUP_ICONS = {"restore_health_powerup.png","temp_health_powerup.png","multi_shot_powerup.png","speed_boost_powerup.png","target_mouse_powerup.png"}
 
-local function getPowerUpType(rand)
-    return POWERUP_TYPES[rand(1,#POWERUP_TYPES)]
-end
-
-function POWERUP:restoreHealth(ship)
-    ship:changeHelath(2)
+function restoreHealth(ship)
+    ship:changeHealth(2)
     ship:checkHealth()
 end
 
-function POWERUP:tempHealth(ship)
-    --tweening
-    player:changeHelath(3)
+function tempHealth(ship)
+    ship.prev_healht = ship.health
+    ship:changeHealth(math.huge)
 end
 
-function POWERUP:mouseTarget(ship)
-    --tweening
-    ship.target_mouse = true
+function mouseTarget(ship)
+    ship.target_mouse    = true
+    ship.prev_time_shots = ship.weapon.time_between_shots
+    ship.weapon.time_between_shots = ship.time_between_shots * 0.4
 end
 
-function POWERUP:mulitShot(ship)
+function mulitShot(ship)
+    ship.prev_weapon = ship.weapon
+    ship.weapon      = MULTISHOT:new(math.random,ship.speed)
 
 end
 
-function POWERUP:speed(ship)
-
+function increaseSpeed(ship)
+    ship.prev_speed = ship.speed
+    ship.speed      = ship.speed * 1.5
 end
 
-function POWERUP:circleShot(ship)
-
-end
 
 local function getPowerUpFunc(powerup_type)
-    for i=1, #POWERUP_TYPES,1 do
-        if powerup_type == POWERUP_TYPES[i] then
-            return POWERUP_FUNCS[i]
-        end
+    if powerup_type == 1 then
+        return restoreHealth
+    elseif powerup_type == 2 then
+        return tempHealth
+    elseif powerup_type == 3 then
+        return multiShot
+    elseif powerup_type == 4 then
+        return increaseSpeed
+    elseif powerup_type == 5 then
+        return mouseTarget
     end
-    return nil
 end
 
-local function getPowerUpIcons(powerup_type)
-    for i=1, #POWERUP_TYPES,1 do
-        if powerup_type == POWERUP_TYPES[i] then
-            return love.graphics.newImage("assets/img/powerups/ " .. POWERUP_ICONS[i])
-        end
-    end
-    return nil
+
+local function getPowerUpIcon(powerup_type)
+    return love.graphics.newImage("assets/img/power_ups/" .. POWERUP_ICONS[powerup_type])
 end
 
-function POWER_UP:new()
-    local rand         = math.random
-    local powerup_type = getPowerUpType(rand)
+function POWERUP:new(rand)
+    local powerup_type = rand(1,#POWERUP_ICONS)
     local icon         = getPowerUpIcon(powerup_type)
-    local x,y          = makeXY(PWER_UP_LIST,rand)
-    local o            = setmetatable(OBJECT:new(x,y,0,icon),POWER_UP)
-    o.func             = getPowerUpFunc(powerup_type)
+    local x,y          = makeXY(POWERUP_LIST,rand)
+    local o            = setmetatable(OBJECT:new(x,y,0,icon),POWERUP)
+    o.func             = getPowerUpFunc(powerup_type)--POWERUP_FUNCS[1]--powerup_type]
+    o.sound            = love.audio.newSource("/assets/sounds/power_ups/pickup_powerup.ogg","static")
     return o
 end
 

@@ -26,6 +26,7 @@ local S_Rocket    = require("aux_files.stationary_rocket")
 local M_Rocket    = require("aux_files.moving_rocket")
 local Station     = require("aux_files.station")
 local Satellite   = require("aux_files.satellite")
+local Powerup     = require("aux_files.powerup")
 local GAME_OVER   = false
 
 local function printUI()
@@ -59,6 +60,7 @@ function love.draw()
         iterateList(SHIP_LIST,printObject)
         iterateList(PLAYER_PROJ,printObject)
         iterateList(ENEMY_PROJ,printObject)
+        iterateList(POWERUP_LIST,printObject)
         PLAYER:printPlayer()
         love.graphics.pop()
         printUI()
@@ -83,7 +85,12 @@ function love.mousepressed(x,y,button,_,_)
     if button == 2 then
         FACE_MOUSE = not FACE_MOUSE 
     end
+end
 
+local function makePowerup()
+    if math.random(1,100) < 1 then
+        table.insert(POWERUP_LIST,POWERUP:new(math.random))
+    end
 end
 
 function love.update(dt)
@@ -91,6 +98,7 @@ function love.update(dt)
         GAME_OVER = true
         love.keyboard.setKeyRepeat(false)  
     else
+        makePowerup()
         iterateList(SHIP_LIST,updateObject,dt)    --loop over all enemy ships and update each one
         iterateList(PLAYER_PROJ,updateObject,dt) --loop over all player projectiles and update each one
         iterateList(ENEMY_PROJ,updateObject,dt)  --loop over each enemy projectile and update each one
@@ -145,6 +153,7 @@ function love.load()
     SHIP_LIST     = {}  --list of all enemy ships
     PLAYER_PROJ   = {}  --list of projectiles shot by player
     ENEMY_PROJ    = {}  --list of projectiles shot by enemy
+    POWERUP_LIST  = {}
     MAX_SPEED     = 300
     PLAYER        = PLAYER_SHIP:makePlayer()  
     MAX_SPEED     = PLAYER.speed  --ensure that no enemy ship can travel faster than player ship
