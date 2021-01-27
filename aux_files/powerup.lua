@@ -58,13 +58,28 @@ local function getPowerUpFunc(powerup_type)
     end
 end
 
+local function getPowerUpType(rand)
+    local n = rand(1,16)
+    if n < 2 then
+        return 2
+    elseif n < 5 then
+        return 5
+    elseif n < 8 then
+        return 3 
+    elseif n < 12 then
+        return 4
+    else
+        return 1
+    end
+
+end
 
 local function getPowerUpIcon(powerup_type)
     return love.graphics.newImage("assets/img/power_ups/" .. POWERUP_ICONS[powerup_type])
 end
 
 function POWERUP:new(rand)
-    local powerup_type = rand(1,#POWERUP_ICONS)
+    local powerup_type = getPowerUpType(rand)
     local icon         = getPowerUpIcon(powerup_type)
     local x,y          = makeXY(POWERUP_LIST,rand)
     local o            = setmetatable(OBJECT:new(x,y,0,icon),POWERUP)
