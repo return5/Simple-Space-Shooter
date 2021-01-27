@@ -14,14 +14,15 @@ function restoreHealth(ship)
 end
 
 function tempHealth(ship)
-    ship.prev_health = ship.health
+    if ship.health <= 6 then
+        ship.prev_health = ship.health
+    end
     ship:changeHealth(math.huge)
     Tick.delay(Lume.once(function(ship) ship.health = ship.prev_health end,ship),10)
 end
 
 function mouseTarget(ship)
     ship.target_mouse    = true
-    ship.prev_time_shots = ship.weapon.time_between_shots
     ship.weapon.time_between_shots = ship.time_between_shots * 0.4
     Tick.delay(Lume.once(function(ship)
         ship.target_mouse = false
@@ -31,7 +32,6 @@ function mouseTarget(ship)
 end
 
 function multiShot(ship)
-    ship.prev_weapon = ship.weapon
     local prev_time  = ship.weapon.time_between_shots
     ship.weapon      = MULTI_SHOT:new(math.random,ship.speed)
     ship.weapon.time_between_shots = prev_time
@@ -40,8 +40,12 @@ end
 
 function increaseSpeed(ship)
     ship.prev_speed = ship.speed
-    ship.speed      = ship.speed * 1.5
-    Tick.delay(Lume.once(function(ship) ship.speed = ship.prev_speed end,ship),10)
+    ship.speed      = ship.prev_speed * 1.5
+    ship.weapon.proj_speed = ship.prev_proj_speed * 1.5
+    Tick.delay(Lume.once(function(ship) 
+        ship.speed = ship.prev_speed 
+        ship.weapon.proj_speed = ship.prev_proj_speed
+        end,ship),10)
 end
 
 local function getPowerUpFunc(powerup_type)

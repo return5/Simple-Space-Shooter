@@ -72,7 +72,10 @@ function PLAYER_SHIP:makePlayer()
     o.weapon             = SINGLE_SHOT:new(rand,o.speed)
     o.weapon.time_between_shots = 0.4 + rand() * 0.2 
     o.weapon.proj_speed         = o.speed * (1.75 + rand() * 0.25) 
-    --o.sound          = getSound(moveable) 
+    o.prev_time_shots = o.weapon.time_between_shots
+    o.prev_speed      = o.speed
+    o.prev_weapon     = o.weapon
+    o.prev_proj_speed = o.weapon.proj_speed
     return o
 end
 
