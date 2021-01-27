@@ -27,7 +27,7 @@
 - [ ] when only a few enemies left add arrow to screen pointing to nearest enemy  
 - [ ] add sounds  
 - [ ] add background music  
-- [] add powerups to game   
+- [ ] add powerups to game   
     - [x] powerup icons  
     - [x] add randomly selected powerups to game at random intervals.  
     - [ ] powerups disappear after a given time interveral.  
