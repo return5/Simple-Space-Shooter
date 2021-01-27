@@ -67,7 +67,7 @@ function PLAYER_SHIP:makePlayer()
     o.target_mouse       = false
     o.thruster           = THRUSTER:new(o.x,o.y,o.move_angle,rand) 
     o.target_angle       = o.move_angle
-    o.health             = 5
+    o.health             = 6
     o.max_health         = o.health
     o.weapon             = SINGLE_SHOT:new(rand,o.speed)
     o.weapon.time_between_shots = 0.4 + rand() * 0.2 

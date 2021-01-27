@@ -17,10 +17,6 @@ MULTI_SHOT = {}
 MULTI_SHOT.__index = MULTI_SHOT
 setmetatable(MULTI_SHOT,WEAPON)
 
-UFO_SHOOT = {}
-UFO_SHOOT.__index = UFO_SHOT
-setmetatable(UFO_SHOOT,WEAPON)
-
 local PROJ_COLORS = {"blue","red","green","yellow"}
 
 function WEAPON:resetSound()
@@ -76,11 +72,6 @@ function MULTI_SHOT:new(rand,ship_speed)
     return o
 end
 
-function UFO_SHOOT:new(rand,ship_speed)
-    local o = setmetatable(WEAPON:new(rand,ship_speed),UFO_SHOOT)
-    return o
-end
-
 local function getProjIcon(rand,missile)
     local color = PROJ_COLORS[rand(1,#PROJ_COLORS)]
     local icon 
@@ -113,7 +104,7 @@ function WEAPON:new(rand,ship_speed)
     local missile        = rand(1,3) < 2
     o.proj_icon          = getProjIcon(rand,missile)
     o.t_off              = rand(1,3) < 2
-    o.time_since_shot    = 0
+    o.time_since_shot    = love.timer.getTime()
     o.time_between_shots = 0.90 + rand() * 1.5
     o.proj_speed         = getProjSpeed(rand,ship_speed)
     o.sound              = getProjSound(missile,rand)

@@ -3,7 +3,7 @@
 
 local Enemy_ship = require("aux_files.enemy_ship")
 
-UFO = {move_target_x = nil, move_target_y = nil}
+UFO = {}
 
 UFO.__index = UFO
 setmetatable(UFO,ENEMY_SHIP)
@@ -23,8 +23,6 @@ end
 function UFO:new(rand)
     local icon          = love.graphics.newImage("assets/img/ships/ufo.png")
     local o             = setmetatable(ENEMY_SHIP:new(rand,icon),UFO)
-    o.shoot_target_x    = rand(1,GAME_W)
-    o.shoot_target_y    = rand(1,GAME_H)
     o.weapon            = rand(1,4) < 4 and SINGLE_SHOT:new(rand,o.speed) or MULTI_SHOT:new(rand,o.speed)     
     o.weapon.proj_speed = o.speed *( 1.2 * rand() + 0.7)
     o.score             = 30
