@@ -27,7 +27,7 @@ function mouseTarget(ship)
     Tick.delay(Lume.once(function(ship)
         ship.target_mouse = false
         ship.weapon.time_between_shots = ship.prev_time_shots 
-        ship.weapon.target_angle = ship.move_angle
+        ship.weapon.target_angle       = ship.move_angle
         end,ship),10)
 end
 
@@ -43,7 +43,7 @@ function increaseSpeed(ship)
     ship.speed      = ship.prev_speed * 1.5
     ship.weapon.proj_speed = ship.prev_proj_speed * 1.5
     Tick.delay(Lume.once(function(ship) 
-        ship.speed = ship.prev_speed 
+        ship.speed             = ship.prev_speed 
         ship.weapon.proj_speed = ship.prev_proj_speed
         end,ship),10)
 end

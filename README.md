@@ -4,9 +4,15 @@
    There are a variety of enemy types and models. With each new game the game objects are randomly selected.  
    The number of Enemy ships and their attributes are all randomly assigned at the start of a new game.  
    The Background of each new game is also randomized with each new game.  
-   Game includes [tick module](https://github.com/rxi/tick) and [Lume module](https://github.com/rxi/lume) both files included under 'aux_files.
+   Game includes [tick module](https://github.com/rxi/tick) and [Lume module](https://github.com/rxi/lume) both files included under 'aux_files' directory.  
+
 
 ## controls  
+'w' - moves player ship forward.  
+'left mouse button' - firse ship weapon.  
+move mouse cursor to move ship.  
+'right mouse button' - enables free movement of mouse cursor. ship no longers follows mouse cursor.press button again to return to normal mode.  
+'a' and 'd' - rotate ship left/right after player presses 'right mouse button'.  
 
 
 
@@ -15,22 +21,26 @@
 ### Restore health  
 ![screenshot_restorehealth](/assets/img/power_ups/restore_health_powerup.png)  
 This power up restores 2 health when collected.  
+
 ### Invulnerability  
 ![screenshot_temphealth](/assets/img/power_ups/temp_health_powerup.png)  
 This power up grants temporary invulnerability when collected.  
+
 ### Increases speed  
 ![screenshot_increasespeed](/assets/img/power_ups/speed_boost_powerup.png)  
 This power up gives a temporary boost to ship speed when collected.  
+
 ### Spread Shot  
 ![screenshot_multishot](/assets/img/power_ups/multi_shot_powerup.png)  
-This power up gives a temporary spread shot when collected.  
+This power up gives a temporary spread shot when collected. 
+
 ### Mouse Aiming  
 ![screenshot_targetmouse](/assets/img/power_ups/target_mouse_powerup.png)  
 This power up gives a temporary ability ot aim with the mouse.  
 After collecting, press right mouse button and shots will target the mouse cursor.  
 also gives a temporary boost in firing speed.   
 
-## Dependencies  
+## Dependencies   
 - [Lua](https://www.lua.org/)  
 - [Love2d](https://love2d.org/)  
 
@@ -43,17 +53,23 @@ also gives a temporary boost in firing speed.
   ![screenshot3](/asset/img/screenshots/screenshot_3.png)  
 
 ## To Do 
-- [x] add gameover screen  
-    - [x] gameover happens when either player health drops to 0 or all enemies are destroyed  
-- [x] add counter to show # of enemies left  
-- [ ] when only a few enemies left add arrow to screen pointing to nearest enemy  
-- [ ] add sounds  
-- [ ] add background music  
-- [x] add powerups to game   
-    - [x] powerup icons  
+- [x] add gameover screen.  
+    - [x] gameover happens when either player health drops to 0 or all enemies are destroyed.  
+- [x] add counter to show # of enemies left.  
+- [ ] when only a few enemies left add arrow to screen pointing to nearest enemy.  
+- [ ] add sounds.  
+    - [x] add sounds for lasers.  
+    - [ ] add sounds for missiles.  
+    - [ ] add sounds for ship destroyed.  
+    - [x] add sound for picking up power up.  
+    - [ ] add sound for ship thrusters.  
+    - [ ] add ufo flying noise.  
+- [ ] add background music.  
+- [x] add powerups to game.   
+    - [x] powerup icons.  
     - [x] add randomly selected powerups to game at random intervals.  
     - [x] powerups disappear after a given time interveral.  
-    - [x] powerup functions which last for a limited time  
+    - [x] powerup functions which last for a limited time.  
 
 ## CREDITS  
 credit for the graphic and sound assets as well as the included modules goes to:  
