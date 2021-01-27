@@ -35,7 +35,20 @@ local function printUI()
 end
 
 local function printGameOver()
-
+    local big_font   = love.graphics.newFont(20)
+    local norm_font  = love.graphics.newFont()
+    local r,g,b,a    = love.graphics.getColor()
+    local str        = "GAME OVER!"
+    local middle_h   = WINDOW_H / 3 
+    local middle_w   = WINDOW_W / 2
+    local str_w_m    = big_font:getWidth(str) / 2
+    love.graphics.setFont(big_font)
+    love.graphics.setColor(1.0,0.2,0.2,a)
+    love.graphics.print(str,(middle_w) - (str_w_m), middle_h)
+    love.graphics.setFont(norm_font)
+    love.graphics.setColor(r,g,b,a)
+    love.graphics.print("Player final score: " .. PLAYER_SCORE,middle_w - str_w_m,middle_h + big_font:getHeight() + 10)
+    love.graphics.print("please press any key to exit.",middle_w - str_w_m,middle_h + big_font:getHeight() + norm_font:getHeight() + 20)
 end
 
 function love.draw()
@@ -50,13 +63,16 @@ function love.draw()
         love.graphics.pop()
         printUI()
     else
-        printGameOver();
+        printGameOver()
     end
 
 end
 
 
 function love.keypressed(_,scancode,_)
+    if GAME_OVER == true then
+        love.event.quit(0)
+    end
 
 end
 
@@ -76,6 +92,7 @@ function love.update(dt)
     iterateList(ENEMY_PROJ,updateObject,dt)  --loop over each enemy projectile and update each one
     if PLAYER.health <= 0 or #SHIP_LIST <=0  then
         GAME_OVER = true
+        love.keyboard.setKeyRepeat(false)  
     else
         if love.keyboard.isScancodeDown('w') then    -- if player is pressing the 'w' key
             MOVE = true
