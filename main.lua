@@ -27,6 +27,8 @@ local M_Rocket    = require("aux_files.moving_rocket")
 local Station     = require("aux_files.station")
 local Satellite   = require("aux_files.satellite")
 local Powerup     = require("aux_files.powerup")
+Tick              = require("aux_files.tick")
+Lume              = require("aux_files.lume")
 local GAME_OVER   = false
 
 local function printUI()
@@ -88,13 +90,16 @@ function love.mousepressed(x,y,button,_,_)
 end
 
 local function makePowerup()
-    if math.random(1,100) < 1 then
+    if math.random(1,100) < 5 then
         table.insert(POWERUP_LIST,POWERUP:new(math.random))
+        local i = #POWERUP_LIST
+        Tick.delay(Lume.once(function(i) POWERUP_LIST[i] = nil end,i),15)
     end
 end
 
 function love.update(dt)
-    if PLAYER.health <= 0 or #SHIP_LIST <=0  then
+    Tick.update(dt)
+   if PLAYER.health <= 0 or #SHIP_LIST <=0  then
         GAME_OVER = true
         love.keyboard.setKeyRepeat(false)  
     else
@@ -115,7 +120,7 @@ function love.update(dt)
         PLAYER:updatePlayer(dt)
     end
 end
-
+--
 --make list of enemy ships
 local function makeEnemyShips()
     local rand = math.random
@@ -163,5 +168,4 @@ function love.load()
     FACE_MOUSE    = true    --should player ship face the mouse pointer
     PLAYER_SCORE  = 0       --player's score
     love.keyboard.setKeyRepeat(true)  --allow player to hold down a key 
-   
 end
