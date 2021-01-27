@@ -2,7 +2,7 @@
 
 local Proj = require("aux_files.projectile")
 
-WEAPON = {proj_speed = nil,proj_icon = nil,time_since_shot = nil,time_between_shots = nil,t_off = nil,target_angle = nil}
+WEAPON = {proj_speed = nil,proj_icon = nil,time_since_shot = nil,time_between_shots = nil,t_off = nil,target_angle = nil, sound = nil}
 WEAPON.__index = WEAPON
 
 CIRCLE_SHOT = {}
@@ -23,10 +23,16 @@ setmetatable(UFO_SHOOT,WEAPON)
 
 local PROJ_COLORS = {"blue","red","green","yellow"}
 
+function WEAPON:resetSound()
+    self.sound:stop()
+    self.sound:play()
+end
+
 function SINGLE_SHOT:shootFunc(ship,list) 
     if love.timer.getTime() - self.time_since_shot > self.time_between_shots then
         table.insert(list,PROJECTILE:new(ship.x,ship.y,self.target_angle,self.t_off,self.proj_icon,self.proj_speed))
         self.time_since_shot = love.timer.getTime()
+    self:resetSound()
     end
 end
 
@@ -38,11 +44,13 @@ function CIRCLE_SHOT:shootFunc(ship,list)
             angle = angle - 0.5235988
             add(list,PROJECTILE:new(ship.x,ship.y,angle,self.t_off,self.proj_icon,self.proj_speed))
         end
+        self:resetSound()
         self.time_since_shot = love.timer.getTime()
     end
 end
 
 function MULTI_SHOT:shootFunc(ship,list) 
+    --self:resetSound()
 
 end
 
@@ -85,6 +93,14 @@ local function getProjSpeed(rand,ship_speed)
     end
 end
 
+local function getProjSound(missile,rand) 
+   -- if missile == true then
+        --return love.audio.newSource("/assets/sounds/weapons/missile_sound_1.ogg","static")
+    --else
+        return love.audio.newSource("/assets/sounds/weapons/laser_sound_" .. rand(1,5) .. ".ogg","static")
+   -- end
+end
+
 function WEAPON:new(rand,ship_speed)
     local o              = setmetatable({},WEAPON)
     local missile        = rand(1,3) < 2
@@ -93,6 +109,7 @@ function WEAPON:new(rand,ship_speed)
     o.time_since_shot    = 0
     o.time_between_shots = 0.90 + rand() * 1.5
     o.proj_speed         = getProjSpeed(rand,ship_speed)
+    o.sound              = getProjSound(missile,rand)
     return o
 end
 
