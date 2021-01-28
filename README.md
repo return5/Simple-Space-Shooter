@@ -1,7 +1,7 @@
 ## Introduction  
    Simple Space shooter is a simplistic 2D shooter set in space.  
-   The player controls a single ship. Player flys their ship through space shooting shoot and attempting to not be shot themself.  
-   There are a variety of enemy types and models. With each new game the game objects are randomly selected.  
+   The player controls a single ship. Player flys their ship through space shooting other ships and attempting to not be shot themself.  
+   There are a variety of enemy types and models. With each new game the types and models are randomly selected.  
    The number of Enemy ships and their attributes are all randomly assigned at the start of a new game.  
    The Background of each new game is also randomized with each new game.  
    Game includes [tick module](https://github.com/rxi/tick) and [Lume module](https://github.com/rxi/lume) both files included under 'aux_files' directory.  
@@ -13,8 +13,6 @@
 move mouse cursor to move ship.  
 'right mouse button' - enables free movement of mouse cursor. ship no longers follows mouse cursor.press button again to return to normal mode.  
 'a' and 'd' - rotate ship left/right after player presses 'right mouse button'.  
-
-
 
 ## Power Ups  
 
