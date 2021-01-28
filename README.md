@@ -46,11 +46,11 @@ also gives a temporary boost in firing speed.
 
 
 ## Screenshots  
-  ![screenshot1](/asset/img/screenshots/screenshot_1.png)  
+  ![screenshot1](/assets/img/screenshots/screenshot_1.png)  
 
-  ![screenshot2](/asset/img/screenshots/screenshot_2.png)  
+  ![screenshot2](/assets/img/screenshots/screenshot_2.png)  
 
-  ![screenshot3](/asset/img/screenshots/screenshot_3.png)  
+  ![screenshot3](/assets/img/screenshots/screenshot_3.png)  
 
 ## To Do 
 - [x] add gameover screen.  
