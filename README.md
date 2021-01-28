@@ -67,7 +67,7 @@ also gives a temporary boost in firing speed.
     - [x] add randomly selected powerups to game at random intervals.  
     - [x] powerups disappear after a given time interveral.  
     - [x] powerup functions which last for a limited time.  
--[ ] add explosion when ship is destroyed.  
+- [ ] add explosion when ship is destroyed.  
 
 ## CREDITS  
 credit for the graphic and sound assets as well as the included modules goes to:  
