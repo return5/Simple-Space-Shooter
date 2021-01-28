@@ -9,7 +9,7 @@
 
 ## controls  
 'w' - moves player ship forward.  
-'left mouse button' - firse ship weapon.  
+'left mouse button' - fire ship weapon.  
 move mouse cursor to move ship.  
 'right mouse button' - enables free movement of mouse cursor. ship no longers follows mouse cursor.press button again to return to normal mode.  
 'a' and 'd' - rotate ship left/right after player presses 'right mouse button'.  
