@@ -3,7 +3,11 @@
 local Ship = require("aux_files.ship")
 local powerup = require("aux_files.powerup")
 
-PLAYER_SHIP = {target_mouse = nil, target_angle = nil,target_x = nil, target_y = nil,prev_health = nil, prev_weapon = nil,prev_speed = nil,prev_time_shots = nil}
+PLAYER_SHIP = 
+    {
+        target_mouse = nil, target_angle = nil,target_x = nil, target_y = nil,prev_health = nil, 
+        prev_weapon = nil,prev_speed = nil,prev_time_shots = nil,sound = nil
+    }
 PLAYER_SHIP.__index = PLAYER_SHIP
 setmetatable(PLAYER_SHIP,SHIP)
 
@@ -54,6 +58,9 @@ function PLAYER_SHIP:updatePlayer(dt)
     if MOVE == true then
         local x,y  = self:getNewXY(dt)
         self:changeXY(x,y)
+        self.sound:play()
+    else
+        self.sound:stop()
     end
 end
 
@@ -70,12 +77,14 @@ function PLAYER_SHIP:makePlayer()
     o.health             = 6
     o.max_health         = o.health
     o.weapon             = SINGLE_SHOT:new(rand,o.speed)
+    o.prev_speed         = o.speed
+    o.prev_weapon        = o.weapon
+    o.prev_proj_speed    = o.weapon.proj_speed
+    o.sound              = love.audio.newSource("/assets/sounds/thruster/rocket_thruster.mp3","static")
+    o.sound:setVolume(0.7)
+    o.weapon.proj_speed  = o.speed * (1.75 + rand() * 0.25) 
     o.weapon.time_between_shots = 0.4 + rand() * 0.2 
-    o.weapon.proj_speed         = o.speed * (1.75 + rand() * 0.25) 
-    o.prev_time_shots = o.weapon.time_between_shots
-    o.prev_speed      = o.speed
-    o.prev_weapon     = o.weapon
-    o.prev_proj_speed = o.weapon.proj_speed
+    o.prev_time_shots           = o.weapon.time_between_shots
     return o
 end
 

@@ -27,6 +27,7 @@ function STATION:new(rand)
     o.health   = 3
     o.score    = 25
     o.weapon   = getStationWeapon(rand)
+    o.weapon.sound:setVolume(0.3)
     return o
 end
 

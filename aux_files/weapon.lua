@@ -72,14 +72,9 @@ function MULTI_SHOT:new(rand,ship_speed)
     return o
 end
 
-local function getProjIcon(rand,missile)
+local function getProjIcon(rand)
     local color = PROJ_COLORS[rand(1,#PROJ_COLORS)]
-    local icon 
-    if missile == true then
-        icon = "/assets/img/weapons/missile_" .. color .. ".png"
-    else
-        icon = "/assets/img/weapons/laser_" .. color .. ".png"
-    end
+    local  icon = "/assets/img/weapons/laser_" .. color .. ".png"
     return love.graphics.newImage(icon)
 end
 
@@ -91,23 +86,18 @@ local function getProjSpeed(rand,ship_speed)
     end
 end
 
-local function getProjSound(missile,rand) 
-   -- if missile == true then
-        --return love.audio.newSource("/assets/sounds/weapons/missile_sound_1.ogg","static")
-    --else
-        return love.audio.newSource("/assets/sounds/weapons/laser_sound_" .. rand(1,5) .. ".ogg","static")
-   -- end
+local function getProjSound(rand) 
+    return love.audio.newSource("/assets/sounds/weapons/laser_sound_" .. rand(1,5) .. ".ogg","static")
 end
 
 function WEAPON:new(rand,ship_speed)
     local o              = setmetatable({},WEAPON)
-    local missile        = rand(1,3) < 2
-    o.proj_icon          = getProjIcon(rand,missile)
+    o.proj_icon          = getProjIcon(rand)
     o.t_off              = rand(1,3) < 2
     o.time_since_shot    = love.timer.getTime()
     o.time_between_shots = 0.90 + rand() * 1.5
     o.proj_speed         = getProjSpeed(rand,ship_speed)
-    o.sound              = getProjSound(missile,rand)
+    o.sound              = getProjSound(rand)
     return o
 end
 

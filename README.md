@@ -59,17 +59,17 @@ also gives a temporary boost in firing speed.
 - [ ] when only a few enemies left add arrow to screen pointing to nearest enemy.  
 - [ ] add sounds.  
     - [x] add sounds for lasers.  
-    - [ ] add sounds for missiles.  
     - [ ] add sounds for ship destroyed.  
     - [x] add sound for picking up power up.  
-    - [ ] add sound for ship thrusters.  
-    - [ ] add ufo flying noise.  
+    - [x] add sound for ship thrusters.  
+    - [x] add ufo flying noise.  
 - [ ] add background music.  
 - [x] add powerups to game.   
     - [x] powerup icons.  
     - [x] add randomly selected powerups to game at random intervals.  
     - [x] powerups disappear after a given time interveral.  
     - [x] powerup functions which last for a limited time.  
+-[ ] add explosion when ship is destroyed.  
 
 ## CREDITS  
 credit for the graphic and sound assets as well as the included modules goes to:  
@@ -81,6 +81,8 @@ credit for the graphic and sound assets as well as the included modules goes to:
 - [freepik](https://www.flaticon.com/packs/space-elements?word=space&k=1609880618970)  
 - [tick](https://github.com/rxi/tick)
 - [Lume](https://github.com/rxi/lume)
+- [ufo sound effect](https://soundbible.com/146-UFO-Exit.html) sound effect in game is slightly edited by me.  
+- [Ship thruster sound effect](https://soundbible.com/1492-Rocket-Thrusters.html)  
 
 All Assets are subject to their own Licenses seperate from that of the code.  
     

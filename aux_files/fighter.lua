@@ -43,6 +43,7 @@ function FIGHTER:new(rand)
     o.speed      = rand(55,PLAYER.speed - 90)
     o.weapon     = getFighterWeapon(rand,o.speed) 
     o.weapon.proj_speed = getFighterProjSpeed(rand,o.speed)
+    o.weapon.sound:setVolume(0.3)
     return o
 end
 

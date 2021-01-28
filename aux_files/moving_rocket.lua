@@ -14,5 +14,6 @@ function MOVING_ROCKET:new(rand)
     o.health   = 1
     o.score    = 5
     o.thruster = THRUSTER:new(o.x,o.y,o.move_angle,rand)
+    o.weapon.sound:setVolume(0.3)
     return o
 end

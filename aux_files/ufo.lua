@@ -3,7 +3,7 @@
 
 local Enemy_ship = require("aux_files.enemy_ship")
 
-UFO = {}
+UFO = {sound = nil}
 
 UFO.__index = UFO
 setmetatable(UFO,ENEMY_SHIP)
@@ -20,12 +20,20 @@ function UFO:printFunc()
     love.graphics.draw(self.icon,self.x,self.y,0,nil,nil,self.x_off,self.y_off)
 end
 
+function UFO:moveFunc(dt)
+    self.sound:play()
+    SHIP.moveFunc(self,dt)
+end
+
 function UFO:new(rand)
     local icon          = love.graphics.newImage("assets/img/ships/ufo.png")
     local o             = setmetatable(ENEMY_SHIP:new(rand,icon),UFO)
     o.weapon            = rand(1,4) < 4 and SINGLE_SHOT:new(rand,o.speed) or MULTI_SHOT:new(rand,o.speed)     
     o.weapon.proj_speed = o.speed *( 1.2 * rand() + 0.7)
     o.score             = 30
+    o.sound             = love.audio.newSource("/assets/sounds/thruster/ufo_sound.ogg","static")
+    o.weapon.sound:setVolume(0.3)
+    o.sound:setVolume(0.1)
     return o
 end
 

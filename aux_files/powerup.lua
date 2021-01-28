@@ -32,15 +32,13 @@ function mouseTarget(ship)
 end
 
 function multiShot(ship)
-    local prev_time  = ship.weapon.time_between_shots
-    ship.weapon      = MULTI_SHOT:new(math.random,ship.speed)
-    ship.weapon.time_between_shots = prev_time
+    ship.weapon                    = MULTI_SHOT:new(math.random,ship.speed)
+    ship.weapon.time_between_shots = ship.prev_time_shots
     Tick.delay(Lume.once(function(ship) ship.weapon = ship.prev_weapon end,ship),10)
 end
 
 function increaseSpeed(ship)
-    ship.prev_speed = ship.speed
-    ship.speed      = ship.prev_speed * 1.5
+    ship.speed             = ship.prev_speed * 1.5
     ship.weapon.proj_speed = ship.prev_proj_speed * 1.5
     Tick.delay(Lume.once(function(ship) 
         ship.speed             = ship.prev_speed 

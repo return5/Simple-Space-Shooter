@@ -65,21 +65,9 @@ function SHIP:update(list,i,dt)
     end
 end
 
-local function getSound(rand,missile)
-    if missile == true then
-        return love.audio.newSource("assets/sounds/weapons/missile_sound_" .. rand(1,3) ..".oog","static")
-    end
-    return love.audio.newSource("asstes/sounds/weapons/laser_sound_" .. rand(1,5) .. ".oog","static")
-end
-
 function getSpeed(rand)
     return rand(125,MAX_SPEED)
 end
-
-local function getTOff(rand)
-    return rand(0,5) < 3 
-end
-
 
 function SHIP:new(rand,icon)
     local x,y            = makeXY(SHIP_LIST,rand)

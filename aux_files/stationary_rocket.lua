@@ -23,6 +23,7 @@ function STATIONARY_ROCKET:new(rand)
     o.weapon   = getStationaryRocketWeapon(rand)
     o.health   = 1
     o.score    = 10
+    o.weapon.sound:setVolume(0.3)
     return o
 end
 
