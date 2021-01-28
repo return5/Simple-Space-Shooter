@@ -90,7 +90,7 @@ function love.mousepressed(x,y,button,_,_)
 end
 
 local function makePowerup()
-    if math.random(1,100) < 6 then
+    if math.random(1,100) < 4 then
         table.insert(POWERUP_LIST,POWERUP:new(math.random))
         local i = #POWERUP_LIST
         Tick.delay(Lume.once(function(i) POWERUP_LIST[i] = nil end,i),15)
@@ -168,4 +168,6 @@ function love.load()
     FACE_MOUSE    = true    --should player ship face the mouse pointer
     PLAYER_SCORE  = 0       --player's score
     love.keyboard.setKeyRepeat(true)  --allow player to hold down a key 
+    love.window.setTitle("Simple Space Shooter")
+
 end
