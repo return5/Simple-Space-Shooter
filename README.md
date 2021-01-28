@@ -79,7 +79,7 @@ credit for the graphic and sound assets as well as the included modules goes to:
 - [freepik](https://www.flaticon.com/packs/space-elements?word=space&k=1609880618970)  
 - [tick](https://github.com/rxi/tick)
 - [Lume](https://github.com/rxi/lume)
-- [ufo sound effect](https://soundbible.com/146-UFO-Exit.html) sound effect in game is slightly edited by me.  
+- [ufo sound effect](https://soundbible.com/146-UFO-Exit.html) (sound effect in game is slightly edited by me.)  
 - [Ship thruster sound effect](https://soundbible.com/1492-Rocket-Thrusters.html)  
 
 All Assets are subject to their own Licenses seperate from that of the code.  
