@@ -4,13 +4,16 @@
    There are a variety of enemy types and models. With each new game the types and models are randomly selected.  
    The number of Enemy ships and their attributes are all randomly assigned at the start of a new game.  
    The Background of each new game is also randomized with each new game.  
+   
+   Game can be played on the web at: [itch.io](https://return5.itch.io/simple-space-shooter)
+
    Game includes [tick module](https://github.com/rxi/tick) and [Lume module](https://github.com/rxi/lume) both files included under 'aux_files' directory.  
 
 
 ## controls  
 'w' - moves player ship forward.  
 'left mouse button' - fire ship weapon.  
-move mouse cursor to move ship.  
+ move mouse cursor to move ship.  
 'right mouse button' - enables free movement of mouse cursor. ship no longers follows mouse cursor.press button again to return to normal mode.  
 'a' and 'd' - rotate ship left/right after player presses 'right mouse button'.  
 
